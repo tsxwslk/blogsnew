@@ -3,6 +3,8 @@ title: 简单了解WebSocket
 author: 怡然
 createTime: 2024/05/27 15:18:20
 permalink: /article/hhds9gsk/
+tags:
+  - JS
 ---
 # JavaScript 简单了解-WebSocket
 

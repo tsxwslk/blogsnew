@@ -200,23 +200,23 @@ grid-template-areas: 'a . c'
 ### 3.5 grid-auto-flow 属性
 - 划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格。默认的放置顺序是"先行后列"，即先填满第一行，再开始放入第二行
 
-![示例图片](../images/1.png)
+<!-- ![示例图片](../images/1.png) -->
 - 这个顺序由`grid-auto-flow`属性决定，默认值是`row`，即"先行后列"。也可以将它设成`column`，变成"先列后行"。
 
-![示例图片](../images/2.png)
+<!-- ![示例图片](../images/2.png) -->
 - `grid-auto-flow`还可以设成`row dense`和`column dense`，这两个值主要用于，某些项目指定位置以后，剩下的项目怎么自动放置。
   
 > 下面的例子让1号项目和2号项目各占据两个单元格，然后在默认的grid-auto-flow: row情况下，会产生下面这样的布局：
 
-![示例图片](../images/3.png)
+<!-- ![示例图片](../images/3.png) -->
  
 > 修改设置，设为`row dense`，表示"先行后列"，并且尽可能紧密填满，尽量不出现空格，会产生下面这样的布局：
 
-![示例图片](../images/4.png)
+<!-- ![示例图片](../images/4.png) -->
 
 > 如果将设置改为`column dense`，表示"先列后行"，并且尽量填满空格，会产生下面这样的布局：
 
-![示例图片](../images/5.png)
+<!-- ![示例图片](../images/5.png) -->
 
 ### 3.6 justify-items 属性，align-items 属性，place-items 属性
 
@@ -270,7 +270,7 @@ grid-template-areas: 'a . c'
   grid-auto-rows: 50px; 
 }
 ```
-![示例图片](../images/6.png)
+<!-- ![示例图片](../images/6.png) -->
 
 ## 4.item属性
 
@@ -290,7 +290,7 @@ grid-template-areas: 'a . c'
   grid-row-end: 4;
 }
 ```
-![示例图片](../images/7.png)
+<!-- ![示例图片](../images/7.png) -->
 
 - 这四个属性的值，除了指定为第几个网格线，还可以指定为网格线的名字。
   
@@ -307,7 +307,7 @@ grid-template-areas: 'a . c'
   grid-column-start: span 2;
 }
 ```
-![示例图片](../images/8.png)
+<!-- ![示例图片](../images/8.png) -->
 
 ### 4.2 grid-column 属性，grid-row 属性
 
@@ -365,7 +365,7 @@ grid-template-areas: 'a . c'
   grid-area: e;
 }
 ```
-![示例图片](../images/9.png)
+<!-- ![示例图片](../images/9.png) -->
 
 - `grid-area`属性还可用作`grid-row-start`、`grid-column-start`、`grid-row-end`、`grid-column-end`的合并简写形式，直接指定项目的位置。
 ```css
