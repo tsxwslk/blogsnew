@@ -5,6 +5,7 @@ import { plumeTheme } from "vuepress-theme-plume";
 export default defineUserConfig({
   // 请不要忘记设置默认语言
   lang: "zh-CN",
+  base:'/',
   theme: plumeTheme({
     avatar: {
       url: "/ava.jpg",
@@ -15,7 +16,7 @@ export default defineUserConfig({
     navbar: [
       { text: "首页", link: "/", icon: "solar:home-add-linear" },
       {
-        text: "博客",
+        text: "笔记",
         link: "/blog/",
         icon: "ri:blogger-line",
       },

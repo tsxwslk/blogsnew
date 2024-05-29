@@ -13,7 +13,7 @@ config:
       text: 走在学习的路上
       actions:
         -
-          text: 我的博客
+          text: 我的笔记
           link: /blog/
           theme: brand
   -
@@ -26,7 +26,7 @@ config:
           wrap: true
         details: 前端学习过程中记录的笔记，持续更新中……
       -
-        title: 工作博客
+        title: 工作笔记
         icon:
           src: /work.svg
           wrap: true
