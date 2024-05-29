@@ -1,40 +1,22 @@
 ---
-title: 一些JS基础知识
-tags:
-  - JS
+title: JS基础
 author: 怡然
 createTime: 2024/05/27 15:01:16
-permalink: /article/ewr4nfz5/
+permalink: /JavaScript/ewr4nfz5/
 ---
-# JavaScript 笔记
 
-## JavaScript
+### 1. 语法和数据类型
+- JavaScript 是区分大小写的，并使用 Unicode 字符集。
+- 三种声明方式：`var` ,`const` ,`let`
 
-### for in 与 for of
-- 时间点不同：for in 在js出现之初就有，for of出现在ES6之后
-- 遍历的内容不同：for in用于遍历对象的可枚举属性(包括原型链上的可枚举属性)，for of用于遍历可迭代对象的值
-- for-in 循环适用于遍历对象，包括普通对象、数组、函数等，而 for-of 循环适用于遍历可迭代对象，包括数组、字符串、Map、Set、TypedArray 等。
-- for-in 循环的迭代顺序是不确定的，因为对象的属性没有固定的顺序。而 for-of 循环的迭代顺序是确定的，因为可迭代对象的值是按照一定顺序排列的。
-- for-in 循环遍历对象时，会遍历对象的原型链，并且会包含从原型链继承的属性。而 for-of 循环遍历的对象是可迭代对象，它们的值是可枚举的。
-```js
-// for in
-const arr = ['a','b','c','d']
-for(const index in arr) {
-  console.log(index) 
-}
-// 打印结果：'0' '1' '2' '3'，可以发现打印的是数组的下标，数组是特殊的对象，下标是数组对象身上的可枚举属性，打印的就是这个可枚举属性
 
-// for of
-for(const item of arr) {
-  console.log(item)
-}
-// 打印结果：'a' 'b' 'c' 'd'，for of打印的就是数组里的每一项元素的值
-```
-> 总结：for of遍历键值对的值，for in 遍历键值对的键。
 
-## 数据类型
 
-### 原始类型
+
+
+
+
+<!-- ### 原始类型
 
 > 最新的 ECMAScript 定义了 9 中数据类型
 > 其中包括 6 中原始类型：Number，String，Boolean，undefined，Symbol，Bight
@@ -379,5 +361,5 @@ Object.prototype.toString.call(Symbol(1)); // "[object Symbol]"
 ### bind
 
 - bind 方法 与 apply 和 call 比较类似，也能改变函数体内的 this 指向。
-- 不同的是，bind 方法的返回值是函数，并且需要稍后调用，才会执行。而 apply 和 call 则是立即调用。
+- 不同的是，bind 方法的返回值是函数，并且需要稍后调用，才会执行。而 apply 和 call 则是立即调用。 -->
 

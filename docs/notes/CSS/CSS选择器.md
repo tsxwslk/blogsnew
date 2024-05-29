@@ -1,12 +1,9 @@
 ---
 title: CSS选择器
-tags:
-  - CSS
 author: 怡然
-createTime: 2024/05/27 15:00:08
-permalink: /article/5r7r12iy/
+createTime: 2024/05/29 16:40:26
+permalink: /CSS/5r7l3tr5/
 ---
-# CSS选择器
 ### 简单选择器
  - 元素选择器  `div{}`
  - 类选择器 `.demo{}`
@@ -23,64 +20,93 @@ permalink: /article/5r7r12iy/
 ### 伪类
 > 以一个冒号作为前缀，样式在特定状态下才被呈现到指定的元素
 ::: details  伪类 点击查看伪类
-```css
-:active 
-:any
-:checked
-:default
-:dir()
-:disabled
-:empty
-:enabled
-:first
-:first-child
-:first-of-type
-:fullscreen
-:focus
-:hover
-:indeterminate
-:in-range
-:invalid
-:lang()
-:last-child
-:last-of-type
-:left
-:link
-:not()
-:nth-child()
-:nth-last-child()
-:nth-last-of-type()
-:nth-of-type()
-:only-child
-:only-of-type
-:optional
-:out-of-range
-:read-only
-:read-write
-:required
-:right
-:root
-:scope
-:target
-:valid
-:visited
-```
+|选择器|描述|
+|-----|-----|
+|`:active`|	在用户激活（例如点击）元素的时候匹配。|
+|`:any-link`|匹配一个链接的`:link`和`:visited`状态。|
+|`:blank`|匹配空输入值的`<input>`元素。|
+|`:checked`|匹配处于选中状态的单选或者复选框。|
+|`:current`|匹配正在展示的元素，或者其上级元素。|
+|`:default`|匹配一组相似的元素中默认的一个或者更多的 `UI` 元素。|
+|`:dir`  |基于其方向性（HTML`dir`属性或者 CSS`direction`属性的值）匹配一个元素。|
+|`:disabled`|匹配处于关闭状态的用户界面元素|
+|`:empty`|匹配除了可能存在的空格外，没有子元素的元素。|
+|`:enabled`|匹配处于开启状态的用户界面元素。|
+|`:first`|匹配分页媒体的第一页。|
+|`:first-child`|匹配兄弟元素中的第一个元素。|
+|`:first-of-type`|匹配兄弟元素中第一个某种类型的元素。|
+|`:focus`|当一个元素有焦点的时候匹配。|
+|`:focus-visible`|当元素有焦点，且焦点对用户可见的时候匹配。|
+|`:focus-within`|匹配有焦点的元素，以及子代元素有焦点的元素。|
+|`:future`|匹配当前元素之后的元素。|
+|`:hover`|当用户悬浮到一个元素之上的时候匹配。|
+|`:indeterminate`|	匹配未定态值的 `UI` 元素，通常为复选框。|
+|`:in-range`|用一个区间匹配元素，当值处于区间之内时匹配。|
+|`:invalid`|匹配诸如`<input>`的位于不可用状态的元素|
+|`:lang`|基于语言（HTML`lang`属性的值）匹配元素。|
+|`:last-child`|匹配兄弟元素中最末的那个元素。|
+|`:last-of-type`|	匹配兄弟元素中最后一个某种类型的元素。|
+|`:left`|在分页媒体中，匹配左手边的页。|
+|`:link`|匹配未曾访问的链接。|
+|`:local-link`|匹配指向和当前文档同一网站页面的链接。|
+|`:is()`|匹配传入的选择器列表中的任何选择器。|
+|`:not`|匹配一列兄弟元素中的元素——兄弟元素按照an+b形式的式子进行匹配（比如 2n+1 匹配元素 1、3、5、7 等。即所有的奇数个）。|
+|`:nth-of-type`|匹配某种类型的一列兄弟元素（比如，`<p>`元素）——兄弟元素按照an+b形式的式子进行匹配（比如 2n+1 匹配元素 1、3、5、7 等。即所有的奇数个）。|
+|`:nth-last-child`|匹配一列兄弟元素，从后往前倒数。兄弟元素按照an+b形式的式子进行匹配（比如 2n+1 匹配按照顺序来的最后一个元素，然后往前两个，再往前两个，诸如此类。从后往前数的所有奇数个）。|
+|`:nth-last-of-type`|匹配某种类型的一列兄弟元素（比如，`<p>`元素），从后往前倒数。兄弟元素按照an+b形式的式子进行匹配（比如 2n+1 匹配按照顺序来的最后一个元素，然后往前两个，再往前两个，诸如此类。从后往前数的所有奇数个）。|
+|`:only-child`|匹配没有兄弟元素的元素。|
+|`:only-of-type`|匹配兄弟元素中某类型仅有的元素。|
+|`:optional`|	匹配不是必填的 `form` 元素。|
+|`:out-of-range`|按区间匹配元素，当值不在区间内的时候匹配。|
+|`:past`|匹配当前元素之前的元素。|
+|`:placeholder-shown`|匹配显示占位文字的 `input` 元素。|
+|`:playing`|	匹配代表音频、视频或者相似的能“播放”或者“暂停”的资源的，且正在“播放”的元素。|
+|`:paused`|匹配代表音频、视频或者相似的能“播放”或者“暂停”的资源的，且正在“暂停”的元素。|
+|`:read-only`|匹配用户不可更改的元素。|
+|`:read-write`|匹配用户可更改的元素。|
+|`:required`|匹配必填的 `form` 元素。|
+|`:right`|在分页媒体中，匹配右手边的页|
+|`:root`|匹配文档的根元素。|
+|`:scope`|匹配任何为参考点元素的元素。|
+|`:valid`|匹配诸如`<input>`元素的处于可用状态的元素。|
+|`:target`|匹配当前 `URL` 目标的元素（例如如果它有一个匹配当前`URL` 分段的元素）。|
+|`:visited`|匹配已访问链接。|
+
+
 :::
 ### 伪元素
 > 以一个冒号作为前缀，样式在特定状态下才被呈现到指定的元素
 ::: details  伪元素 点击查看
-```css
-::after
-::before
-::first-letter
-::first-line
-::selection
-::backdrop
-```
+|选择器|描述|
+|-------|-------|
+|`::after`|匹配出现在原有元素的实际内容之后的一个可样式化元素。|
+|`::before`|	匹配出现在原有元素的实际内容之前的一个可样式化元素。|
+|`::first-letter`|匹配元素的第一个字母。|
+|`::first-line`|匹配包含此伪元素的元素的第一行。|
+|`::grammar-error`|匹配文档中包含了浏览器标记的语法错误的那部分。|
+|`::selection`|匹配文档中被选择的那部分。|
+|`::spelling-error`|	匹配文档中包含了浏览器标记的拼写错误的那部分。|
 :::
 ### 组合器
- -  后代选择器  `div span{}`
- -  子代选择器 `div>span{}`
- -  相邻兄弟选择器`div+span{}`
- -  通用兄弟选择器 `div~span{}`
- - 兄弟选择器只会向后选择
+ -  后代选择器  `div span{}`：祖先与后代
+ -  子代选择器 `div>span{}`：父与子
+ -  相邻兄弟选择器`div+span{}`：最近的弟弟
+ -  通用兄弟选择器 `div~span{}`：所有弟弟
+:::tip
+兄弟选择器只会向后选择
+:::
+
+### 层叠、优先级与继承
+- `CSS` 规则的顺序很重要；当应用两条同级别的规则到一个元素的时候，写在后面的就是实际使用的规则。
+- !important>内联样式>id选择器>类选择器>元素选择器。
+- 一些设置在父元素上的 CSS 属性是可以被子元素继承的，如 `color` 和 `font-family`；另一些则不可以，如`width`、`margin`、`padding`等。
+
+::: details  CSS继承通用属性值 点击查看
+|属性值|含义|
+|-------|-------|
+|`inherit`|设置该属性会使子元素属性和父元素相同。实际上，就是“开启继承”。|
+|`initial`|将应用于选定元素的属性值设置为该属性的初始值。|
+|`revert`|将应用于选定元素的属性值重置为浏览器的默认样式，而不是应用于该属性的默认值。在许多情况下，此值的作用类似于 `unset`。|
+|`revert-layer`|将应用于选定元素的属性值重置为在上一个层叠层中建立的值。|
+|`unset`|将属性重置为自然值，也就是如果属性是自然继承那么就是 `inherit`，否则和 `initial` 一样|
+:::

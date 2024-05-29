@@ -1,13 +1,9 @@
 ---
-title: CSS3新特性
-tags:
-  - CSS
-  - CSS3
+title: CSS3新增内容
 author: 怡然
-createTime: 2024/05/27 15:00:07
-permalink: /article/z8d0bpuo/
+createTime: 2024/05/27 16:00:07
+permalink: /CSS/z8d0bpuo/
 ---
-## CSS3 新增内容
 
 ### 颜色：RGBA，HSLA 模式
 

@@ -1,10 +1,8 @@
 ---
 title: JS常用方法
-tags:
-  - JS
 author: 怡然
 createTime: 2024/05/27 15:01:17
-permalink: /article/usuua4sm/
+permalink: /JavaScript/usuua4sm/
 ---
 # JavaScript-常用方法
 
