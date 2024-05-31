@@ -22,7 +22,7 @@ export default defineUserConfig({
       },
       {
         text: "基础",
-        icon: "ph:file-html",
+        icon: "arcticons:my-base",
         items: [
           {
             text: "HTML",
@@ -38,6 +38,22 @@ export default defineUserConfig({
             text: "JavaScript",
             icon: "ph:file-js",
             link: "/notes/JavaScript/JS基础.md",
+          },
+        ],
+      },
+      {
+        text: "框架",
+        icon: "mdi:electron-framework",
+        items: [],
+      },
+      {
+        text: "其他",
+        icon: "material-symbols:other-admission-outline",
+        items: [
+          {
+            text: "插件",
+            icon: "mingcute:plugin-2-line",
+            link: "/notes/Plugin/Animate动画库.md",
           },
         ],
       },
