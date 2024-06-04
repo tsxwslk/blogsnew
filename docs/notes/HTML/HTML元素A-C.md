@@ -1,5 +1,5 @@
 ---
-title: HTML元素
+title: HTML元素A-C
 author: 怡然
 createTime: 2024/05/28 10:37:34
 permalink: /HTML/x2awpbdf/
@@ -334,5 +334,231 @@ permalink: /HTML/x2awpbdf/
   <b class="keywords">HTML</b> 文档中的用法。
 </p>
 关键字以<b>元素的默认样式显示，可能是粗体。</b>
+```
+:::
+
+## 9. `<base>`文档根 URL 元素
+> 1. 指定用于一个文档中包含的所有相对 `URL` 的根 `URL`。一份中只能有一个 `<base>` 元素，如果指定了多个 <base> 元素，只会使用第一个 `href` 和 `target` 值，其余都会被忽略。。
+> 2. 一个文档的基本 `URL`，可以通过使用 `document.baseURI` 的 `JS` 脚本查询。如果文档不包含 `<base>` 元素，`baseURI` 默认为 `document.location.href`。
+
+### 9.1 属性
+- `href`：用于文档中相对 `URL` 地址的基础 `URL`。允许绝对和相对 `URL`。
+- `target`：默认浏览上下文的关键字或作者定义的名称，当没有明确目标的链接 `<a>` 或表单 `<form>` 导致导航被激活时显示其结果。该属性值定位到浏览上下文（例如选项卡，窗口或内联框 `<iframe>`）。
+  - `_self`: 载入结果到当前浏览上下文中。（该值是元素的默认值）。
+  - `_blank`: 载入结果到一个新的未命名的浏览上下文。
+  - `_parent`: 载入结果到父级浏览上下文（如果当前页是内联框）。如果没有父级结构，该选项的行为和`_self`一样。
+  - `_top`: 载入结果到顶级浏览上下文（该浏览上下文是当前上下文的最顶级上下文）。如果没有父级，该选项的行为和`_self` 一样。
+
+### 9.2 用法
+```html
+<base href="http://www.example.com/" target="_blank" />
+<a href="#anchor">Anker</a>
+<!--链接指向 https://example.com/#anchor-->
+```
+
+## 10. `<bdi>`和`<bdo>`
+### 10.1 `<bdi>`
+> 告诉浏览器的双向算法将其包含的文本与周围的文本隔离，当网站动态插入一些文本且不知道所插入文本的方向性时，此功能特别有用。
+
+- 属性：`dir`一个指示元素中文本方向的枚举属性。它的取值如下：
+  - ltr，指从左到右，用于那种从左向右书写的语言（比如英语）；
+  - rtl，指从右到左，用于那种从右向左书写的语言（比如阿拉伯语）；
+  - auto，指由用户代理决定方向。它在解析元素中字符时会运用一个基本算法，直到发现一个具有强方向性的字符，然后将这一方向应用于整个元素。
+
+### 10.2 `<bdo>`：双向文本覆盖元素
+> 元素覆盖了当前文本的方向，使文本以不同的方向渲染出来。
+>
+> 属性与上述`<bdi>`一致。
+
+### 10.3 用法示例
+::: normal-demo <bdi>和<bdo>标签
+```html
+<p><bdo dir="rtl">This text will go rightto left.</bdo></p>
+<p><bdo dir="rtl">This text <bdi>will</bdi> go right to left.</bdo></p>
+```
+:::
+
+::: normal-demo <bdi>对于从右往左读的例如阿拉伯语友好
+```html
+<ul>
+  <li>用户 <bdi>hrefs</bdi>: 60 分</li>
+  <li>用户 <bdi>jdoe</bdi>: 80 分</li>
+  <li>用户 <bdi>إيان</bdi>: 90 分</li>
+</ul>
+```
+:::
+
+::: normal-demo 若不使用<bdi>标签
+```html
+<ul>
+  <li>用户 hrefs: 60 分</li>
+  <li>用户 jdoe: 80 分</li>
+  <li>用户 إيان: 90 分</li>
+</ul>
+```
+:::
+
+## 11. `<blockquote>`：块级引用元素
+> 1. 代表其中的文字是引用内容。通常在渲染时，这部分的内容会有一定的缩进，若引文来源于网络，则可以将原内容的出处 `URL` 地址设置到 `cite` 特性上。
+> 2. `cite`：是一个标注引用的信息的来源文档或者相关信息的 `URL`。通常用来描述能够解释引文的上下文或者引用的信息。
+
+::: normal-demo <blockquote>标签使用
+```html
+<blockquote cite="https://hanyu.baidu.com/shici/detail?from=aladdin&pid=f3f889357df84af681cfc55098ced685">
+  <p>
+    晋太元中，武陵人捕鱼为业。缘溪行，忘路之远近。忽逢桃花林，夹岸数百步，中无杂树，芳草鲜美，落英缤纷。渔人甚异之，复前行，欲穷其林。
+  </p>
+</blockquote>
+```
+:::
+
+## 12. `<body>`：文档主体元素
+|属性|含义|
+|----------|-------------|
+|`onafterprint`|用户完成文档打印之后调用的函数。|
+|`onbeforeprint`|用户要求打印文档之前调用的函数。|
+|`onbeforeunload`|文档即将被关闭之前调用的函数。|
+|`onblur`|文档失去焦点时调用的函数。|
+|`onerror`|文档加载失败时调用的函数。|
+|`onfocus`|文档获得焦点时调用的函数。|
+|`onhashchange`|文档当前地址的片段标识部分（以 ('#') 开始的部分）发生改变时调用的函数。|
+|`onlanguagechange`|用户选择的语言发生改变时调用的函数。|
+|`onload`|文档完成加载时调用的函数。|
+|`onmessage`|文档接收到消息时调用的函数。|
+|`onoffline`|网络连接失败时调用的函数。|
+|`ononline`|网络连接恢复时调用的函数。|
+|`onpopstate`|用户回退历史记录时调用的函数。|
+|`onredo`|用户重做操作时调用的函数。|
+|`onresize`|文档尺寸发生改变时调用的函数。|
+|`onstorage`|存储内容（`localStorage` / `sessionStorage`）发生改变时调用的函数。|
+|`onundo`|用户撤销操作时调用的函数。|
+|`onunload`|文档关闭时调用的函数。|
+
+## 13. `<br>`换行
+
+## 14. `<button>`
+|属性|含义|
+|-----------|------------|
+|`autofocus`|布尔属性，用于指定当页面加载时按钮有输入焦点。只有一个表单关联元素可以指定该属性。|
+|`autocomplete`|只有 `Firefox` 使用，`Firefox` 默认在页面加载时持续禁用 `Button` 的动态状态，将此属性设置为`off` (i.e. `autocomplete="off`") 关闭此特性。|
+|`disabled`|此布尔属性表示用户是否能与 button 交互。|
+|`form`|表示 `button` 元素关联的 `form` 元素（它的表单拥有者）。此属性值必须为同一文档中的一个`<form>`元素的`id`属性。如果此属性未指定，`<button>`元素必须是 `form` 元素的后代。利用此属性，你可以将`<button>`元素放置在文档内的任何位置，而不仅仅是作为他们 `form` 元素的后代。|
+|`formaction`|表示程序处理 `button` 提交信息的 URL。|
+|`formenctype`|如果 `button` 是 `submit` 类型，此属性值指定提交表单到服务器的内容类型。1. `application/x-www-form-urlencoded`: 未指定时的默认值。2. `multipart/form-data`: 如果使用type属性的<input>元素设置文件，使用此值。3. `text/plain`如果指定此属性，它将重写 `button` 的表单拥有者的`enctype`属性。|
+|`formmethod`|如果 `button` 是 `submit` 类型，此属性指定浏览器提交表单使用的 `HTTP` 方法。可选值：1. `post`：来自表单的数据被包含在表单内容中，被发送到服务器。2. `get`：来自表单的数据以'`?`'作为分隔符被附加到 `form` 的`URL`属性中，得到的 `URL` 被发送到服务器。当表单没有副作用，且仅包含 `ASCII` 字符时使用这种方法。如果指定了，此属性会重写 `button` 拥有者的`method`属性。|
+|`formnovalidate`|如果 `button` 是 `submit` 类型，此布尔属性指定当表单被提交时是否需要验证。如果指定了，它会重写 `button` 拥有者的`novalidate`属性。|
+|`formtarget`|如果 `button` 是 `submit` 类型，此属性指定一个名称或关键字，表示接收提交的表单后在哪里显示响应。关键字如下：1. `_self`: 在同一个浏览上下文中加载响应作为当前的。未指定时此值为默认值。2. `_blank`: 在一个新的不知名浏览上下文中加载响应。3. `_parent`: 在当前浏览上下文父级中加载响应。如果没有父级的，此选项将按_self 执行。4. `_top`: 在顶级浏览上下文（即当前浏览上下文的祖先，且没有父级）中架加载响应。如果没有顶级的，此选项将按_self 执行。|
+|`name`|button 的名称，与表单数据一起提交。|
+|`type`|1. `submit`: 此按钮将表单数据提交给服务器。如果未指定属性，或者属性动态更改为空值或无效值，则此值为默认值。2. `reset`: 此按钮重置所有组件为初始值。3. `button`: 此按钮没有默认行为。它可以有与元素事件相关的客户端脚本，当事件出现时可触发。|
+|`value`|`button` 的初始值。它定义的值与表单数据的提交按钮相关联。当表单中的数据被提交时，这个值便以参数的形式被递送至服务器。|
+
+## 15. `<canvas>`
+> `<canvas>` 元素可被用来通过 JavaScript（`Canvas API` 或 `WebGL API`）绘制图形及图形动画。
+
+|属性|含义|
+|-----------|------------|
+|`height`|该元素占用空间的高度，以 CSS 像素（px）表示，默认为 150。|
+|`width`|该元素占用空间的宽度，以 CSS 像素（px）表示，默认为 300。|
+
+- 示例：
+```html
+<canvas id="canvas" width="300" height="300"></canvas>
+```
+
+```js
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.fillStyle = "green";
+ctx.fillRect(10, 10, 100, 100);
+```
+
+## 16. `<caption>`
+- 展示一个表格的标题，它常常作为 `<table>` 的第一个子元素出现，同时显示在表格内容的最前面，但是，它同样可以被 CSS 样式化，所以，它同样可以出现在任何一个一个相对于表格的做任意位置。
+- 使用 CSS 属性 caption-side 和 text-align修改`<caption>`内容的对齐方式。
+
+## 17. `<cite>`
+> 表示一个作品的引用，且必须包含作品的标题。这个引用可能是一个根据适当的上下文约定关联引用的元数据的缩写。
+
+::: normal-demo <cite>标签使用
+```html
+更多内容请查看 <cite>笔记</cite>。
+```
+:::
+
+## 17. `<code>`：行内代码元素
+> 为其显示的内容添加用以表明其中的文本是一段简短的计算机代码的样式。
+
+::: normal-demo <code>标签使用
+```html
+<p>使用<code>filter()</code>可将数组中符合条件的元素筛选出来</p>
+```
+:::
+
+## 18. `<colgroup>`与`<col>`：表格列组元素
+- 属性`span`：指定 `<col>` 元素跨列的连续列数。该值必须是大于 0 的正整数。如果不存在，其默认值为 1。
+- 该元素本质是将表格的列分为组，以便更好地进行样式设置。
+  
+:::normal-demo <colgroup>与<col>标签使用
+```html
+<table>
+  <caption>
+    个人每周活动
+  </caption>
+  <colgroup span="5" class="weekdays"></colgroup>
+  <colgroup span="2" class="weekend"></colgroup>
+  <tr>
+    <th>周一</th>
+    <th>周二</th>
+    <th>周三</th>
+    <th>周四</th>
+    <th>周五</th>
+    <th>周六</th>
+    <th>周日</th>
+  </tr>
+  <tr>
+    <td>打扫房间</td>
+    <td>足球训练</td>
+    <td>舞蹈课</td>
+    <td>历史课</td>
+    <td>买饮料</td>
+    <td>自习</td>
+    <td>自由时间</td>
+  </tr>
+  <tr>
+    <td>瑜伽</td>
+    <td>棋类俱乐部</td>
+    <td>见朋友</td>
+    <td>体操</td>
+    <td>生日派对</td>
+    <td>钓鱼之旅</td>
+    <td>自由时间</td>
+  </tr>
+</table>
+```
+```css
+table {
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+}
+
+caption {
+  caption-side: bottom;
+  padding: 10px;
+}
+
+th,
+td {
+  border: 1px solid rgb(160 160 160);
+  padding: 8px 6px;
+  text-align: center;
+}
+
+.weekdays {
+  background-color: #d7d9f2;
+}
+
+.weekend {
+  background-color: #ffe8d4;
+}
 ```
 :::

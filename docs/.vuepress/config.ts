@@ -68,7 +68,7 @@ export default defineUserConfig({
           sidebar: [
             {
               text: "HTML基础",
-              items: ["HTML基础知识","HTML元素"],
+              items: ["HTML基础知识","HTML元素A-C"],
             },
           ],
         },
