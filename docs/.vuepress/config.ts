@@ -44,7 +44,13 @@ export default defineUserConfig({
       {
         text: "框架",
         icon: "mdi:electron-framework",
-        items: [],
+        items: [
+          {
+            text: "Vue3",
+            icon: "mingcute:vue-fill",
+            link: "/notes/Vue3/Vue3基础.md"
+          }
+        ],
       },
       {
         text: "其他",
@@ -68,7 +74,7 @@ export default defineUserConfig({
           sidebar: [
             {
               text: "HTML基础",
-              items: ["HTML基础知识","HTML元素A-C","HTML元素D-F","HTML元素H-L","HTML元素M-S","HTML元素T-X","table及相关元素"],
+              items: ["HTML基础知识","HTML元素A-C","HTML元素D-F","HTML元素H-L","HTML元素M-S","HTML元素T-X","table及相关元素","input元素"],
             },
           ],
         },
@@ -89,6 +95,16 @@ export default defineUserConfig({
             {
               text: "JavaScript基础",
               items: ["JS基础","JS常用方法","webSocket"],
+            },
+          ],
+        },
+        {
+          dir: "Vue3", 
+          link: "/Vue3/", 
+          sidebar: [
+            {
+              text: "Vue3学习笔记",
+              items: ["Vue3基础"],
             },
           ],
         },
