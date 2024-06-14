@@ -104,7 +104,7 @@ export default defineUserConfig({
           sidebar: [
             {
               text: "Vue3学习笔记",
-              items: ["Vue3基础"],
+              items: ["Vue3基础","Vue3核心语法"],
             },
           ],
         },
