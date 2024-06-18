@@ -419,3 +419,174 @@ let age = ref(18)
 defineExpose({name,age}) 
 ```
 :::
+
+## 10. TS中的接口、泛型、自定义类型
+- 接口
+  ```ts
+  export interface PersonInter { // interface表示接口
+    id:string, // 数据类型用小写
+    name:string,
+    age:number
+  }
+  ```
+  组件中引入这个定义的对象：
+  ```ts
+  import {type PersonInter} from './xxxx'
+  let person:PersonInter={id:'hgjfds76',name:'Jack',age:56}
+  ```
+- 泛型
+  ```ts
+  import {type PersonInter} from './xxxx'
+  let personList:Array<PersonInter>=[  // 定义一个数组，数组里的内容是何种类型定义在<>内，表示泛型
+    {id:'hgjfds76',name:'Jack',age:56},
+    {id:'hgjfds74',name:'Jhon',age:51},
+    {id:'hgjfds72',name:'Marry',age:53}
+  ]
+  ```
+- 自定义类型
+  ```ts
+  export interface PersonInter {
+    id:string,
+    name:string,
+    age:number,
+    x?:number // 表示不一定使用
+  }
+  // 一个自定义类型
+  export type Persons=Array<PersonInter>
+  // 也可以这样写
+  // export type Persons=PersonInter[]
+  ```
+  使用：
+  ```ts
+  import {type Persons} from './xxxx'
+  let personList:Persons=[
+    {id:'hgjfds76',name:'Jack',age:56},
+    {id:'hgjfds74',name:'Jhon',age:51},
+    {id:'hgjfds72',name:'Marry',age:53}
+  ]
+  // 若定义响应式数据
+  let personList=reactive<Persons>([
+    {id:'hgjfds76',name:'Jack',age:56},
+    {id:'hgjfds74',name:'Jhon',age:51},
+    {id:'hgjfds72',name:'Marry',age:53}
+  ])
+  ```
+
+## 11. props
+- 父组件
+  ```vue
+  <template>
+    <Person a="arknights" :list="personList"/>
+  </template>
+  <script lang="ts" setup name="App">
+    import Person from './Person'
+    import {reactive} from 'vue'
+    import {type Persons} from '@/types'
+
+    let personList=reactive<Persons>([
+      {id:'hgjfds76',name:'Jack',age:56},
+      {id:'hgjfds74',name:'Jhon',age:51},
+      {id:'hgjfds72',name:'Marry',age:53}
+    ])
+  </script>
+  ```
+- 子组件
+  ```vue
+  <template>
+    <div> 
+      <ul>
+        <li v-for="item in list" :key="item.id">{{item.name}}:{{item.age}}</li>
+      </ul>
+    </div>
+  </template>
+  <script lang="ts" setup name="Person">
+    import {defineProps,withDefaults} from 'vue' //defineProps为宏函数，不引入也不会报错
+    import {type Persons} from '@/types'
+    // 接受
+    // defineProps(['a','list'])
+
+    // 接受并保存
+    /* let demo = defineProps(['a'])
+    console.log(demo.a) */
+    
+    // 接受并限制类型
+    // defineProps<{list:Persons}>()
+
+    // 接受并限制类型+限制必要性+指定默认值
+    withDefaults(defineProps<{list?:Persons}>(),{
+      list:()=>[{id:'ghjasgd87',name:'Angel',age:10}]
+    }) 
+    // list+?,?表示不一定需要传，父组件不传不会报错
+    // withDefaults指定默认值
+  </script>
+  ```
+::: tip
+1. 只接受 `defineProps(['a','list'])`
+2. 接受并保存 `let demo = defineProps(['a'])`
+3. 接受并限制类型 `defineProps<{list:Persons}>()`
+4. 接受并限制类型+限制必要性+指定默认值 `withDefaults(defineProps<{list?:Persons}>(),{list:()=>[{id:'ghjasgd87',name:'Angel',age:10}]})`
+:::
+
+## 12. 生命周期
+### 12.1 vue2的生命周期
+1. 创建（创建前`beforeCreate`，创建完毕`created`）
+2. 挂载（挂载前`beforeMount`，挂载完毕`mounted`）
+3. 更新（更新前`beforeUpdate`，更新完毕`updated`）
+4. 销毁（销毁前`beforeDestroy`，销毁完毕`destroyed`）
+
+### 12.2 vue3的生命周期
+1. 创建阶段：`setup`
+2. 挂载阶段：`onBeforeMount`、`onMounted`
+3. 更新阶段：`onBeforeUpdate`、`onUpdated`
+4. 卸载阶段：`onBeforeUnmount`、`onUnmounted`
+
+::: details
+```vue
+<template>
+  <div class="person">
+    <h2>当前求和为：{{ sum }}</h2>
+    <button @click="changeSum">点我sum+1</button>
+  </div>
+</template>
+
+<!-- vue3写法 -->
+<script lang="ts" setup name="Person">
+  import { 
+    ref, 
+    onBeforeMount, 
+    onMounted, 
+    onBeforeUpdate, 
+    onUpdated, 
+    onBeforeUnmount, 
+    onUnmounted 
+  } from 'vue'
+
+  // 数据
+  let sum = ref(0)
+  // 方法
+  function changeSum() {
+    sum.value += 1
+  }
+  console.log('setup')
+  // 生命周期钩子
+  onBeforeMount(()=>{
+    console.log('挂载之前')
+  })
+  onMounted(()=>{
+    console.log('挂载完毕')
+  })
+  onBeforeUpdate(()=>{
+    console.log('更新之前')
+  })
+  onUpdated(()=>{
+    console.log('更新完毕')
+  })
+  onBeforeUnmount(()=>{
+    console.log('卸载之前')
+  })
+  onUnmounted(()=>{
+    console.log('卸载完毕')
+  })
+</script>
+```
+:::
