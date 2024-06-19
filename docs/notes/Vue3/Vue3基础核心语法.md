@@ -1,5 +1,5 @@
 ---
-title: Vue3核心语法
+title: Vue3基础核心语法
 author: 怡然
 createTime: 2024/06/14 14:59:08
 permalink: /Vue3/e8c62k44/
@@ -160,7 +160,7 @@ function changePoem(){
 ```js
 import {ref,reactive,toRef,toRefs} from 'vue'
 let game =reactive({name:'明日方舟',author:'鹰角'})
-let {name,author}=toRefs(game) // 此时结构赋值得到的name和author都是由ref定义的响应式数据
+let {name,author}=toRefs(game) // 此时解构赋值得到的name和author都是由ref定义的响应式数据
 
 // 若只想从对象中得到其中一个属性定义为响应式数据，则如下
 let mz = toRef(game,'name') // 如此得到的mz数据也是响应式的
@@ -590,3 +590,41 @@ defineExpose({name,age})
 </script>
 ```
 :::
+- 父组件的挂载完毕在子组件挂载完毕之后
+
+
+## 13. hooks
+- `hooks`，一般是一个包含TS或者JS文件的文件夹，内部文件命名规则为`useXXX.ts`
+- 可以将一个逻辑的数据、方法、监视、计算等等放在一个文件里，类似于vue2的mixin，至此，组合式api的意义更加明确。
+
+::: details 代码示例
+```js
+import {ref,onMounted} from 'vue'  
+export default function(){ // 默认暴露export default一个方法出去
+  let sum = ref(0)  
+  const increment = ()=>{
+    sum.value += 1
+  }
+  const decrement = ()=>{
+    sum.value -= 1
+  }
+  onMounted(()=>{
+    increment()
+  })  
+  //向外部暴露数据
+  return {sum,increment,decrement}
+}		
+```
+```vue
+<template>
+  <h2>当前求和为：{{sum}}</h2>
+  <button @click="increment">点我+1</button>
+  <button @click="decrement">点我-1</button>
+</template>  
+<script setup lang="ts" name="App">
+  import useSum from './hooks/useSum'
+  let {sum,increment,decrement} = useSum() // 解构使用
+</script>
+```
+:::
+
