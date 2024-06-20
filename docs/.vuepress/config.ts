@@ -103,8 +103,8 @@ export default defineUserConfig({
           link: "/Vue3/", 
           sidebar: [
             {
-              text: "Vue3学习笔记",
-              items: ["Vue3基础","Vue3基础核心语法","Vue3路由","Vue3状态管理工具pinia"],
+              text: "Vue3基础学习笔记",
+              items: ["Vue3基础","Vue3基础核心语法","Vue3路由","Vue3状态管理工具pinia","Vue3组件通信"],
             },
           ],
         },
