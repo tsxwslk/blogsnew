@@ -199,7 +199,7 @@ const emits = defineEmits(['update:modelValue'])
 
 ## 5. `$attrs`祖孙组件通信
 - `$attrs`是一个对象，包含所有父组件传入的标签属性。
-- 注意：`$attrs`会自动排除`props`中声明的属性(可以认为声明过的 `props` 被子组件自己“消费”了)
+- 注意：`$attrs`会自动排除在子组件的`props`中声明的属性(可以认为声明过的 `props` 被子组件自己“消费”了)
 
 父组件
 ```vue
@@ -232,3 +232,104 @@ const emits = defineEmits(['update:modelValue'])
 	defineProps(['a','b','c','d','x','y','updateA'])
 </script>
 ```
+
+## 6. `$refs`、`$parent`
+1. `$refs` 用于父传子，在父组件的方法中使用 `$refs` 可以对象形式获取所有子组件。
+2. `$parent` 用于子传父，在子组件的方法中使用 `$parent` 可以获取父组件。
+3. 无论是子组件还是父组件希望通过这样的方式进行通信，都需要使用宏函数 `defineExpose()` 将需要传递的值暴露出去。
+
+- 代码示例如下：
+父组件
+```vue
+<template>
+	<div class="father">
+		<h3>子组件传回的数据：{{ childData }}</h3>
+		<button @click=getAllChildren($refs)>获取子组件</button>
+		<Child ref="child" />
+	</div>
+</template>
+
+<script setup lang="ts" name="Father">
+import Child from './components/Child.vue'
+import { ref } from "vue";
+let childData=ref('完全由父组件确定')
+function getAllChildren(refs: {[key:string]:any}) {
+	refs.child.bookNum+=3
+}
+defineExpose({childData})
+</script>
+```
+子组件
+```vue
+<template>
+	<div class="child">
+		<h3>展示出来的数字：{{ bookNum }}</h3>
+		<button @click="updateFather($parent)">更改父组件</button>
+	</div>
+</template>
+
+<script setup lang="ts" name="Child">
+import { ref } from 'vue'
+let bookNum = ref(8)
+function updateFather(parent:any){
+	parent.house='子组件传回的数据'
+}
+defineExpose({bookNum})
+</script>
+```
+
+## 7. `provide` 与 `inject`
+- 实现父组件与后代组件之间的通信，与 `$attrs`相比不需要打扰中间的子组件。
+- 在祖先组件中通过 `provide` 配置向后代组件提供数据。
+- 在后代组件中通过 `inject` 配置来声明接收数据。
+- 代码示例如下：
+```vue
+<template>
+	<div class="father">
+		<h3>父组件</h3>
+		<h4>父组件已有内容1：{{ money }}</h4>
+		<h4>父组件已有内容2：书名：{{ book.name }}，作者：{{ book.author }}</h4>
+		<button @click="money += 1">资产+1</button>
+		<button @click="book.author += 1">作者姓名+~</button>
+		<Child/>
+	</div>
+</template>
+
+<script setup lang="ts" name="Father">
+	import Child from './Child.vue'
+	import { ref,reactive,provide } from "vue";
+	// 数据
+	let money = ref(100)
+	let book = reactive({
+		name:'彷徨',
+		author:'鲁迅'
+	})
+	// 用于更新money的方法
+	function updateMoney(value:number){
+		money.value += value
+	}
+	// 提供数据，该方法提供的数据，所有后代都可以收到，不局限于祖孙组件
+	provide('moneyContext',{money,updateMoney})
+	provide('book',book)
+</script>
+```
+后代组件：
+```vue
+<template>
+	<div class="grand-child">
+		<h3>我是后代组件</h3>
+		<h4>继承到的资产：{{ money }}</h4>
+		<h4>继承到的书：书名：{{ book.name }}，作者：{{ book.author }}</h4>
+		<button @click="updateMoney(6)">点我</button>
+	</div>
+</template>
+<script setup lang="ts" name="GrandChild">
+	import { inject } from 'vue';
+	// 注入数据
+	let {money,updateMoney} = inject('moneyContext',{money:0,updateMoney:(x:number)=>{}})
+	let book = inject('book')
+</script>
+```
+
+## 8. 插槽
+### 8.1 默认插槽
