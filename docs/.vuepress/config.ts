@@ -5,7 +5,9 @@ import { plumeTheme } from "vuepress-theme-plume";
 export default defineUserConfig({
   lang: "zh-CN",
   base:'/',
+  title:'泠泠彻夜的笔记',
   theme: plumeTheme({
+    hostname:'http://www.iyuwb.com/',
     avatar: {
       url: "/ava.jpg",
       name: "怡然",
