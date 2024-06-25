@@ -333,3 +333,144 @@ defineExpose({bookNum})
 
 ## 8. 插槽
 ### 8.1 默认插槽
+> 在子组件中用 `<slot>` 占位，在父组件调用子组件时使用双标签，在双标签中书写需要展示在子组件占位符中的内容
+- 父组件
+```vue
+<template>
+	<div class="father">
+		<Child title="古代">
+			<ul>
+				<li v-for="item in list" :key="item.id">{{ item.name }}</li>
+			</ul>
+		</Child>
+		<Child title="近现代">
+			<span>{{ name1 }}</span>
+		</Child>
+		<Child title="国外">
+			<span>{{ name2 }}</span>
+		</Child>
+	</div>
+</template>
+
+<script setup lang="ts" name="Father">
+import Child from './components/Child.vue'
+import { ref,reactive } from "vue";
+const list=reactive([
+	{id:1,name:'李白'},
+	{id:1,name:'白居易'},
+	{id:1,name:'杜甫'},
+	{id:1,name:'柳宗元'},
+])
+const name1=ref('鲁迅')
+const name2=ref('陀思妥耶夫斯基')
+</script>
+```
+
+```vue
+<template>
+	<div class="child">
+		<h2>{{title}}</h2>
+		<slot></slot>
+	</div>
+</template>
+
+<script setup lang="ts" name="Child">
+defineProps(['title'])
+</script>
+```
+
+### 8.2 具名插槽
+> 在 `<slot>` 标签里写 `name` 属性，在父组件调用子组件时时使用 `<template>` 并传入 `v-slot:[name]`，也可以简写为 `#[name]`。代码如下：
+- 父组件
+```vue
+<template>
+	<div class="father">
+		<Child title="喜欢的作者">
+			<template v-slot:s1>
+				<ul>
+					<li v-for="item in list" :key="item.id">{{ item.name }}</li>
+				</ul>
+			</template>
+			<template v-slot:s2>
+				<p>{{ name1 }}</p>
+			</template>
+			<template #s3>
+				<p>{{ name2 }}</p>
+			</template>
+		</Child>
+	</div>
+</template>
+```
+- 子组件
+```vue
+<template>
+	<div class="child">
+		<h2>{{title}}</h2>
+		<slot name="s1"></slot>
+		<slot name="s2"></slot>
+		<slot name="s3"></slot>
+	</div>
+</template>
+```
+
+### 8.3 作用域插槽
+> 在占位符 `<slot>` 中利用像 `props` 一样传值的方法将子组件中的值传给父组件；在父组件中使用 `v-slot="xxx"` 的方式接受参数。代码如下：
+
+- 父组件
+```vue
+<template>
+	<div class="father">
+		<h2>喜欢的作者</h2>
+		<Child>
+			<template v-slot:author="params">
+				<ul>
+					<li v-for="item in params.list" :key="item.id">{{ item.name }}</li>
+				</ul>
+			</template>
+		</Child>
+		<Child>
+			<template #author="params">
+				<p>{{ params.name1 }}</p>
+			</template>
+		</Child>
+		<Child>
+			<template #author="params">
+				<p>{{ params.name2 }}</p>
+			</template>
+		</Child>
+	</div>
+</template>
+
+<script setup lang="ts" name="Father">
+import Child from './components/Child.vue'
+</script>
+```
+- 子组件
+```vue
+<template>
+	<div class="child">
+		<slot name="author" :list="list" :name1="name1" :name2="name2"></slot>
+	</div>
+</template>
+
+<script setup lang="ts" name="Child">
+import {ref,reactive} from 'vue'
+const list = reactive([
+	{ id: 1, name: '李白' },
+	{ id: 1, name: '白居易' },
+	{ id: 1, name: '杜甫' },
+	{ id: 1, name: '柳宗元' },
+])
+const name1 = ref('鲁迅')
+const name2 = ref('陀思妥耶夫斯基')
+</script>
+```
+
+## 9. 总结
+
+|组件关系|传递方式|
+|--------------|---------------|
+|父传子|1. `props` <br>2. `v-model` <br>3. `$refs` <br>4. 默认插槽，具名插槽|
+|子传父|1. `props` <br>2. 自定义事件 <br>3. `v-model` <br>4. `$parent` <br>5. 作用域插槽|
+|祖孙组件|1. `$attrs` <br>2. `provide`,`inject`|
+|兄弟或任意组件|1. `mitt` <br>2. `pinia`|
