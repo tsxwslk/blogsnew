@@ -387,7 +387,7 @@ var { name, skill } = {
 };
 console.log(name, skill); //yiran  sleep
 
-//无声明复制  需要加小括号
+//无声明赋值  需要加小括号
 var name, skill;
 ({ name, skill } = {
   name: "yiran",
@@ -413,6 +413,170 @@ let set = new Set([1, 2, 3]);
 console.log(...set); // 1 2 3
 ```
 ::: 
+
+## 6. 表达式与运算符
+### 6.1 赋值运算符
+> 可以使用简写方式，如 `x += y` 意为 `x = x + y`。
+
+### 6.2 比较运算符
+> 比较常规，有：
+> - 等于， `==`
+> - 不等于，`!=`
+> - 全等，`===`
+> - 不全等，`!==`
+> - 大于，`>`
+> - 大于等于，`>=`
+> - 小于，`<`
+> - 小于等于，`<=`
+
+### 6.3 算术运算符
+> - 常规如加减乘除，求余，自增自减不再多说，注意自增自减时 `++`、`--`在变量前后时计算的优先级不同。
+> -  一元负值符 `-`，返回操作数的负值。
+> - 一元负值符 `+`，如果操作数在之前不是数值，试图将其转换为数值。
+> - 指数运算符 `**`，计算底数的指数次方。
+
+### 6.3 位运算符
+> 位运算符将它的操作数视为 32 位元的二进制串（0 和 1 组成）而非十进制八进制或十六进制数。例如：十进制数字 9 用二进制表示为 1001，位运算符就是在这个二进制表示上执行运算，但是返回结果是标准的 JavaScript 数值。
+
+|操作|用法|描述
+|:----------:|:-------------:|:-----------:|
+|按位与 AND|`a & b`|在 `a,b` 的位表示中，每一个对应的位都为 `1` 则返回 `1`，否则返回 `0`|
+|按位或 OR|`a \| b`|在 `a,b` 的位表示中，每一个对应的位，只要有一个为 `1` 则返回 `1`，否则返回 `0`|
+|按位异或 XOR|`a ^ b`|在 a,b 的位表示中，每一个对应的位，两个不相同则返回 1，相同则返回 0|
+|按位非 NOT|`~ a`|反转被操作数的位。|
+|左移|`a << b`|将 `a` 的二进制串向左移动 `b` 位，右边移入 `0`|
+|右移|`a >> b`|把 `a` 的二进制表示向右移动 `b` 位，丢弃被移出的所有位。(注：算术右移左边空出的位是根据最高位是 `0` 和 `1` 来进行填充的)|
+|无符号右移|`a >>> b`|把 `a` 的二进制表示向右移动 `b` 位，丢弃被移出的所有位，并把左边空出的位都填充为 `0`|
+
+### 6.4 逻辑运算符
+- 与`&&`
+- 且`||`
+- 非`!`
+
+### 6.5 一元操作符
+> 一元操作符仅对应一个操作数。
+
+#### 6.5.1 `delete`
+> 删除一个对象的属性或者一个数组中某一个键值。
+```js
+x = 42;
+var y = 43;
+myobj = new Number();
+myobj.h = 4; // create property h
+delete x; // returns true (can delete if declared implicitly)
+delete y; // returns false (cannot delete if declared with var)
+delete Math.PI; // returns false (cannot delete predefined properties)
+delete myobj.h; // returns true (can delete user-defined properties)
+delete myobj; // returns true (can delete if declared implicitly)
+```
+- 删除数组中的元素时，数组的长度是不变的，例如删除 `a[3]`, `a[4]`，`a[4]` 和 `a[3]` 仍然存在变成了 `undefined`。
+```js
+var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
+delete trees[3];
+if (3 in trees) {
+  // 不会被执行
+}
+```
+- 如果想让数组中存在一个元素但是是 `undefined` 值，使用 `undefined` 关键字而不是 `delete` 操作。
+```js
+var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
+trees[3] = undefined;
+if (3 in trees) {
+  // this gets executed（会被执行）
+}
+console.log(3 in trees) // true
+```
+
+#### 6.5.2 `typeof`
+::: details typeof的返回值
+```js
+var myFun = new Function("5 + 2");
+var shape = "round";
+var size = 1;
+var today = new Date();
+typeof myFun; // returns "function"
+typeof shape; // returns "string"
+typeof size; // returns "number"
+typeof today; // returns "object"
+typeof dontExist; // returns "undefined"
+typeof true; // returns "boolean"
+typeof null; // returns "object"
+typeof document.lastModified; // returns "string"
+typeof window.length; // returns "number"
+typeof Math.LN2; // returns "number"
+typeof blur; // returns "function"
+typeof eval; // returns "function"
+typeof parseInt; // returns "function"
+typeof shape.split; // returns "function"
+typeof Date; // returns "function"
+typeof Function; // returns "function"
+typeof Math; // returns "object"
+typeof Option; // returns "function"
+typeof String; // returns "function"
+```
+:::
+
+#### 6.5.3 `void`
+> `void` 运算符，表明一个运算没有返回值。
+
+- 如下创建了一个超链接文本，当用户单击该文本时，不会有任何效果。
+```html
+<a href="javascript:void(0)">Click here to do nothing</a>
+```
+- 下面的代码创建了一个超链接，当用户单击它时，提交一个表单。
+```html
+<a href="javascript:void(document.form.submit())">Click here to submit</a>
+```
+
+### 6.6 关系运算符
+#### 6.6.1 `in`
+> 如果所指定的属性确实存在于所指定的对象中，则会返回`true`
+```js
+// Arrays
+var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
+0 in trees; // returns true
+3 in trees; // returns true
+6 in trees; // returns false
+"bay" in trees; // returns false (you must specify the index number,
+// not the value at that index)
+"length" in trees; // returns true (length is an Array property)
+
+// Predefined objects
+"PI" in Math; // returns true
+var myString = new String("coral");
+"length" in myString; // returns true
+
+// Custom objects
+var mycar = { make: "Honda", model: "Accord", year: 1998 };
+"make" in mycar; // returns true
+"model" in mycar; // returns true
+```
+
+#### 6.6.2 `instanceof`
+> 如果所判别的对象确实是所指定的类型，则返回`true`。
+```js
+var theDay = new Date(1995, 12, 17);
+if (theDay instanceof Date) {
+  // statements to execute
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
