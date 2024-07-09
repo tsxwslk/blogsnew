@@ -561,6 +561,165 @@ if (theDay instanceof Date) {
 }
 ```
 
+## 7. 数字和日期
+### 7.1 数字
+> - 一个介于 `±2^−1023` 和 `±2^+1024` 之间的数字，或约为 `±10^−308` 到 `±10^+308`，数字精度为 `53` 位。整数数值仅在 `±(2^53 - 1)` 的范围内可以表示准确。
+> - 除了能够表示浮点数，数字类型也还能表示三种符号值：`+Infinity（正无穷）`、`-Infinity（负无穷）`和 `NaN` (`not-a-number`，非数字)。
+> - 不能让 `BigInt` 和 `Number` 直接进行运算，也不能用 `Math` 对象去操作 `BigInt` 数字。
+> - 四种数字进制：二进制、八进制（`0o`），十进制，十六进制（`0x`）
+> - 指数形式：`175e-2` (175*10<sup>-2</sup>)，为 `1.75`
+
+#### 7.1.1 数字对象
+- 属性
+
+|属性|描述|
+|:--------------:|:-----------------:|
+|`Number.MAX_VALUE`|可表示的最大值|
+|`Number.MIN_VALUE`|可表示的最小值|
+|`Number.NaN`|特指非数字|
+|`Number.NEGATIVE_INFINITY`|特指“负无穷”;在溢出时返回|
+|`Number.POSITIVE_INFINITY`|特指“正无穷”;在溢出时返回|
+|`Number.EPSILON`|表示 `1` 和比最接近 `1` 且大于 `1` 的最小 `Number` 之间的差别|
+|`Number.MIN_SAFE_INTEGER`|JavaScript 最小安全整数。|
+|`Number.MAX_SAFE_INTEGER`|JavaScript 最大安全整数。|
+
+- 方法
+
+|方法|描述|
+|:--------------:|:-----------------:|
+|`Number.parseFloat()`|把字符串参数解析成浮点数，和全局方法 `parseFloat()` 作用一致。|
+|`Number.parseInt()`|把字符串解析成特定基数对应的整型数字，和全局方法 `parseInt()` 作用一致。|
+|`Number.isFinite()`|判断传递的值是否为有限数字。|
+|`Number.isInteger()`|判断传递的值是否为整数。|
+|`Number.isNaN()`|判断传递的值是否为 `NaN`。|
+|`Number.isSafeInteger()`|判断传递的值是否为安全整数。|
+|`toExponential()`|返回一个数字的指数形式的字符串，形如：`1.23e+2`|
+|`toFixed()`|返回指定小数位数的表示形式，`var a=123,b=a.toFixed(2)//b="123.00"`|
+|`toPrecision()`|返回一个指定精度的数字。如下例子中，`a=123` 中，3 会由于精度限制消失 `var a=123,b=a.toPrecision(2)//b="1.2e+2"`|
+
+#### 7.1.2 数学对象
+> 如 `Math.PI`，`Math.sin(1.56)`;
+
+|方法|描述|
+|:--------------:|:-----------------:|
+|`abs()`|绝对值|
+|`sin()`, `cos()`, `tan()`|标准三角函数;参数为弧度|
+|`asin()`, `acos()`, `atan()`, `atan2()`|反三角函数; 返回值为弧度|
+|`sinh()`, `cosh()`, `tanh()`|双曲三角函数; 参数为弧度。|
+|`asinh()`, `acosh()`, `atanh()`|	反双曲三角函数;返回值为弧度。|
+|`pow()`, `exp()`, `expm1()`, `log10()`, `log1p()`, `log2()`|指数与对数函数|
+|`floor()`, `ceil()`|返回小于等于参数的最大整数；返回大于等于参数的最小整数|
+|`min()`, `max()`|返回一个以逗号间隔的数字参数列表中的较小或较大值|
+|`random()`|返回 `0` 和 `1` 之间的随机数。|
+|`round()`, `fround()`, `trunc()`|四舍五入和截断函数|
+|`sqrt()`, `cbrt()`, `hypot()`|平方根，立方根，所有参数平方和的平方根两个参数平方和的平方根|
+|`sign()`|数字的符号，说明数字是否为正、负、零。|
+|`clz32()`, `imul()`|在 32 位 2 进制表示中，开头的 0 的数量。返回传入的两个参数相乘结果的类 C 的 32 位表现形式|
+
+### 7.2 日期对象
+> - `var dateObjectName = new Date([parameters])`
+> - 不使用 `new` 关键字来调用 `Date` 对象将返回当前时间和日期的字符串
+> - 参数 `parameters` 可以是一下任何一种：
+>   - 无参数 : 创建今天的日期和时间，例如： `today = new Date()`。
+>   - 一个符合以下格式的表示日期的字符串："月 日，年 时：分：秒"。例如： `var Xmas95 = new Date("December 25, 1995 13:30:00")`。如果你省略时、分、秒，那么他们的值将被设置为 0。
+>   - 一个年，月，日的整型值的集合，例如： `var Xmas95 = new Date(1995, 11, 25)`。
+>   - 一个年，月，日，时，分，秒的集合，例如： `var Xmas95 = new Date(1995, 11, 25, 9, 30, 0)`。
+> - `Date` 对象的方法:
+>   - "set" 方法，用于设置 Date 对象的日期和时间的值。
+>   - "get" 方法，用于获取 Date 对象的日期和时间的值。
+>   - "to" 方法，用于返回 Date 对象的字符串格式的值。
+>   - parse 和 UTC 方法，用于解析 Date 字符串。
+
+## 8. 文本格式化
+### 8.1 字符串
+#### 8.1.1 `string` 对象的方法
+
+|方法|描述|
+|:--------------:|:-----------------:|
+|`charAt`, `charCodeAt`, `codePointAt`|返回字符串指定位置的字符或者字符编码。|
+|`indexOf`, `lastIndexOf`|分别返回字符串中指定子串的位置或最后位置。|
+|`startsWith`, `endsWith`, `includes`|返回字符串是否以指定字符串开始、结束或包含指定字符串。|
+|`concat`|连接两个字符串并返回新的字符串。|
+|`fromCharCode`, `fromCodePoint`|从指定的 `Unicode` 值序列构造一个字符串。这是一个 `String` 类方法，不是实例方法。|
+|`split`|通过将字符串分离成一个个子串来把一个 `String` 对象分裂到一个字符串数组中。|
+|`slice`|从一个字符串提取片段并作为新字符串返回。|
+|`substring`, `substr`|分别通过指定起始和结束位置，起始位置和长度来返回字符串的指定子集。|
+|`match`, `replace`, `search`|通过正则表达式来工作。|
+|`toLowerCase`, `toUpperCase`|分别返回字符串的小写表示和大写表示。|
+|`normalize`|按照指定的一种 Unicode 正规形式将当前字符串正规化。|
+|`repeat`|将字符串内容重复指定次数后返回。|
+|`trim`|去掉字符串开头和结尾的空白字符。|
+
+#### 8.1.2 模板字符串
+- 多行
+```js
+console.log(
+  "string text line 1\n\
+string text line 2",
+);
+// "string text line 1
+// string text line 2"
+// 等同于下面的代码
+console.log(`string text line 1
+string text line 2`);
+```
+- 嵌入表达式
+```js
+const five = 5;
+const ten = 10;
+console.log(
+  "Fifteen is " + (five + ten) + " and not " + (2 * five + ten) + ".",
+);
+// "Fifteen is 15 and not 20."
+// 等同于如下
+const five = 5;
+const ten = 10;
+console.log(`Fifteen is ${five + ten} and not ${2 * five + ten}.`);
+// "Fifteen is 15 and not 20."
+```
+
+### 8.2 国际化
+> `Intl` 对象是 `ECMAScript` 国际化 API 的命名空间，它提供了语言敏感的字符串比较，数字格式化和日期时间格式化功能。`Collator`, `NumberFormat`, 和 `DateTimeFormat` 对象的构造函数是Intl对象的属性。
+#### 8.2.1 日期和时间格式化
+```js
+// 把一个日期格式化为美式英语格式。(不同时区结果不同)
+// July 17, 2014 00:00:00 UTC:
+const july172014 = new Date("2014-07-17");
+
+const options = {
+  year: "2-digit",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  timeZoneName: "short",
+};
+const americanDateTime = new Intl.DateTimeFormat("en-US", options).format;
+// 本地时区会根据你的设置而有所不同。
+console.log(americanDateTime(july172014));
+```
+
+#### 8.2.2 数字格式化
+```js
+var gasPrice = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 3,
+});
+
+console.log(gasPrice.format(5.259)); // $5.259
+
+var hanDecimalRMBInChina = new Intl.NumberFormat("zh-CN-u-nu-hanidec", {
+  style: "currency",
+  currency: "CNY",
+});
+
+console.log(hanDecimalRMBInChina.format(1314.25)); // ￥ 一，三一四。二五
+```
+
+
+
+
 
 
 
