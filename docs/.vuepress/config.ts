@@ -6,6 +6,7 @@ export default defineUserConfig({
   lang: "zh-CN",
   base:'/',
   title:'泠泠彻夜的笔记',
+  port: 7089,
   theme: plumeTheme({
     hostname:'http://www.iyuwb.com/',
     avatar: {
