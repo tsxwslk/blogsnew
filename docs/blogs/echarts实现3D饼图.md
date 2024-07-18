@@ -7,6 +7,10 @@ tags:
   - echarts
 ---
 
+::: info
+echarts本身是没有3D饼图的，需要借助echarts-gl插件实现。
+:::
+
 ```vue
 <template>
   <div class="water-eval-container">
@@ -29,6 +33,7 @@ export default {
   },
   data() {
     return {
+      // 配置饼图的颜色，也可以在下面配置项中配置
       itemStyleColor: [{ color: '#33AC76' }, { color: '#5FA3E4' }, { color: '#A7E3ED' }, { color: '#76EFE6' }, { color: '#E88C5D' }],
       optionData: []
     }
@@ -38,30 +43,31 @@ export default {
   },
   methods: {
     init() {
+      // 将传入的数据进行处理
       for (let i = 0; i < this.data.length; i++) {
         this.data[i].itemStyle = this.itemStyleColor[i];
         this.data[i].value = Number.parseInt(this.data[i].value)
       }
-      this.optionData = this.data;
+      this.optionData = this.data; // {itemStyle:{color: '#33AC76'},value:23123,name:'1天'}
       if (this.optionData.length == 0) return;
       this.option = this.getPie3D(this.optionData, 0.8);
       // 构建3d饼状图
       const myChart = echarts.init(document.getElementById('cityGreenLand-charts'));
       // 传入数据生成 option
-      // myChart.setOption(this.option);
       myChart.setOption(this.option);
       this.bindListen(myChart);
     },
     getPie3D(pieData, internalDiameterRatio) {
       // internalDiameterRatio:透明的空心占比
       const that = this;
-      const series = [];
-      let sumValue = 0;
-      let startValue = 0;
-      let endValue = 0;
-      let legendData = [];
-      let legendBfb = [];
-      const k = 1 - internalDiameterRatio;
+      const series = []; // 饼图数据
+      let sumValue = 0; // 饼图的总数值
+      let startValue = 0; // 饼图的开始值
+      let endValue = 0; // 饼图的结束值
+      let legendData = []; // 图例数据
+      let legendBfb = []; // 图例百分比
+      const k = 1 - internalDiameterRatio; // 计算空心的半径
+      // 对传入的数据进行排序
       pieData.sort((a, b) => {
         return (b.value - a.value);
       });
@@ -69,19 +75,20 @@ export default {
       for (let i = 0; i < pieData.length; i++) {
         sumValue += pieData[i].value;
         const seriesItem = {
-          name: typeof pieData[i].name === 'undefined' ? `series${i}` : pieData[i].name,
-          type: 'surface',
-          parametric: true,
+          name: typeof pieData[i].name === 'undefined' ? `series${i}` : pieData[i].name, // 系列名称
+          type: 'surface', // 类型
+          parametric: true, // 是否是参数曲面
           wireframe: {
-            show: false
+            show: false // 是否显示网格线
           },
-          pieData: pieData[i],
+          pieData: pieData[i], // 饼图数据
           pieStatus: {
-            selected: false,
-            hovered: false,
-            k: k
+            selected: false, // 是否选中
+            hovered: false, // 是否悬浮
+            k: k // 空心的半径
           },
         };
+        // 如果传入了 itemStyle，就使用传入的 itemStyle
         if (typeof pieData[i].itemStyle !== 'undefined') {
           const itemStyle = {};
           typeof pieData[i].itemStyle.color !== 'undefined' ? itemStyle.color = pieData[i].itemStyle.color : null;
@@ -96,26 +103,26 @@ export default {
       legendData = [];
       legendBfb = [];
       for (let i = 0; i < series.length; i++) {
-        endValue = startValue + series[i].pieData.value;
-        series[i].pieData.startRatio = startValue / sumValue;
-        series[i].pieData.endRatio = endValue / sumValue;
+        endValue = startValue + series[i].pieData.value; // 计算扇形的结束值
+        series[i].pieData.startRatio = startValue / sumValue; // 计算扇形的开始比率
+        series[i].pieData.endRatio = endValue / sumValue; // 计算扇形的结束比率
         series[i].parametricEquation = this.getParametricEquation(series[i].pieData.startRatio, series[i].pieData.endRatio,
-          false, false, k, series[i].pieData.value);
-        startValue = endValue;
-        const bfb = that.fomatFloat(series[i].pieData.value / sumValue, 4);
-        legendData.push({
+          false, false, k, series[i].pieData.value); // 生成参数方程。传参分别是开始比率、结束比率、是否选中、是否悬浮、空心的半径、扇形的数值。
+        startValue = endValue; // 计算下一个扇形的开始值
+        const bfb = that.fomatFloat(series[i].pieData.value / sumValue, 4); // 计算百分比，传参为扇形的数值除以总数值
+        legendData.push({ // 图例数据
           name: series[i].name,
           value: bfb
         });
-        legendBfb.push({
+        legendBfb.push({ // 图例百分比
           name: series[i].name,
           value: bfb
         });
       }
-      const boxHeight = this.getHeight3D(series, 16);// 通过传参设定3d饼/环的高度，26代表26px
+      const boxHeight = this.getHeight3D(series, 16);// 通过传参设定3d饼/环的高度，16代表16px
       // 准备待返回的配置项，把准备好的 legendData、series 传入。
       const option = {
-        legend: {
+        legend: { // 图例
           data: legendData,
           orient: 'horizontal',
           left: 'right',
@@ -134,13 +141,13 @@ export default {
             return ` ${item.name} ${bfs}`;
           }
         },
-        labelLine: {
+        labelLine: { // 标签线
           show: true,
           lineStyle: {
             color: '#7BC0CB'
           }
         },
-        label: {
+        label: { // 标签
           show: true,
           position: 'outside',
           rich: {
@@ -157,7 +164,7 @@ export default {
           formatter: '{b|{b} \n}{c|{d}}{b|  %}'
 
         },
-        tooltip: {
+        tooltip: { // 提示框
           trigger: 'item',
           backgroundColor: '#001c38cf',
           borderColor: '#00B8FF',
@@ -175,7 +182,7 @@ export default {
             }
           }
         },
-        // x,y,z调整大小的
+        // x,y,z调整大小的，也可以更改饼图的形状
         xAxis3D: {
           min: -0.55,
           max: 0.55
@@ -193,16 +200,14 @@ export default {
           boxHeight: boxHeight, // 圆环的高度
           viewControl: { // 3d效果可以放大、旋转等，请自己去查看官方配置
             alpha: 40, // 角度
-            distance: 300, // 调整视角到主体的距离，类似调整zoom
+            distance: 300, // 调整视角到主体的距离，类似调整zoom，调整饼图视觉上大小时调整这个值，值越小，饼图越大
             rotateSensitivity: 0, // 设置为0无法旋转
             zoomSensitivity: 0, // 设置为0无法缩放
             panSensitivity: 0, // 设置为0无法平移
             autoRotate: true // 自动旋转
           },
-          top:'top',
+          top:'top', // 调整饼图的位置
           left:'left',
-          width: 250, // 图形的大小
-          height:250,
         },
         series: series
       };
@@ -220,10 +225,10 @@ export default {
     // 生成扇形的曲面参数方程，用于 series-surface.parametricEquation
     getParametricEquation(startRatio, endRatio, isSelected, isHovered, k, h) {
       // 计算
-      const midRatio = (startRatio + endRatio) / 2;
-      const startRadian = startRatio * Math.PI * 2;
-      const endRadian = endRatio * Math.PI * 2;
-      const midRadian = midRatio * Math.PI * 2;
+      const midRatio = (startRatio + endRatio) / 2; // 计算扇形的中间比率
+      const startRadian = startRatio * Math.PI * 2; // 计算扇形的开始弧度
+      const endRadian = endRatio * Math.PI * 2; // 计算扇形的结束弧度
+      const midRadian = midRatio * Math.PI * 2; // 计算扇形的中间弧度
       // 如果只有一个扇形，则不实现选中效果。
       if (startRatio === 0 && endRatio === 1) {
         isSelected = false;
@@ -276,9 +281,9 @@ export default {
         }
       };
     },
-
+    // 这是一个自定义计算的方法
     fomatFloat(num, n) {
-      var f = parseFloat(num);
+      var f = parseFloat(num); // 强制转换为浮点数
       if (isNaN(f)) {
         return false;
       }

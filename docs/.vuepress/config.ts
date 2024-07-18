@@ -51,6 +51,11 @@ export default defineUserConfig({
             text: "Vue3",
             icon: "mingcute:vue-fill",
             link: "/notes/Vue3/Vue3基础.md"
+          },
+          {
+            text: "uniapp",
+            icon: "ph:union",
+            link: "/notes/uniapp/uniapp基础.md"
           }
         ],
       },
@@ -107,6 +112,16 @@ export default defineUserConfig({
             {
               text: "Vue3基础学习笔记",
               items: ["Vue3基础","Vue3基础核心语法","Vue3路由","Vue3状态管理工具pinia","Vue3组件通信","其他常用API"],
+            },
+          ],
+        },
+        {
+          dir: "uniapp", 
+          link: "/uniapp/", 
+          sidebar: [
+            {
+              text: "uniapp学习笔记",
+              items: ["uniapp基础","uniapp组件"],
             },
           ],
         },
