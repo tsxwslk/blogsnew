@@ -165,3 +165,47 @@ permalink: /uniapp/p81o02s6/
 |`animation`|Boolean|true|是否使用动画|
 |`@change`|EventHandle| |拖动过程中触发的事件，`event.detail = {x: x, y: y, source: source}`，其中source表示产生移动的原因，值可为touch（拖动）、touch-out-of-bounds（超出移动范围）、out-of-bounds（超出移动范围后的回弹）、friction（惯性）和空字符串（setData）|
 |`@scale`|EventHandle| |双指缩放过程中触发的事件，`缩放过程中触发的事件，event.detail = {x: x, y: y, scale: scale}，`|
+
+### 2.6 `cover-view`和`cover-image`
+1. `cover-view`
+- 覆盖在原生组件上的文本视图。
+- `app-vue`和小程序框架，渲染引擎是`webview`的。但为了优化体验，部分组件如`map`、`video`、`textarea`、`canvas`通过原生控件实现，原生组件层级高于前端组件（类似`flash`层级高于`div`）。为了能正常覆盖原生组件，设计了`cover-view`。
+- cover-view 嵌套使用时，内部不可直接写文本节点，需要使用 cover-view 包裹。
+
+|属性名|类型|默认值|说明|
+|:-------:|:------------:|:------------:|:------------:|
+|`scroll-top`|Number/String| |设置顶部滚动偏移量，仅在设置了 overflow-y: scroll 成为滚动元素后生效|
+
+2. `cover-image`
+- 覆盖在原生组件上的图片视图。可覆盖的原生组件同cover-view，支持嵌套在cover-view里。
+- 不支持的CSS：
+   - position: fixed
+   - opacity
+   - overflow
+   - padding
+   - linebreak
+   - white-space
+
+|属性名|类型|默认值|说明|
+|:-------:|:------------:|:------------:|:------------:|
+|`src`|String| |图标路径。支持本地路径、网络路径。不支持 base64 格式。|
+|`@load`|eventhandle| |图片加载成功时触发|
+|`@error`|eventhandle| |图片加载失败时触发|
+
+### 2.7 `icon`
+|属性名|类型|默认值|说明|
+|:-------:|:------------:|:------------:|:------------:|
+|`type`|String| |图标类型|
+|`size`|Number|23|图标大小|
+|`color`|Color| |图标颜色|
+
+### 2.8 `text`
+- 文本组件。用于包裹文本内容。
+- text组件在web浏览器渲染（含浏览器、小程序webview渲染模式、app-vue）和uvue中，可以并只能嵌套text组件。在nvue中，text组件不能嵌套。
+
+|属性名|类型|默认值|说明|
+|:-------:|:------------:|:------------:|:------------:|
+|`selectable`|Boolean|false|是否可选中|
+|`user-select`|String|none|用户是否可以选择文本|
+|`space`|String| |显示连续空格, `ensp`: 中文字符空格一半大小; `emsp`: 中文字符空格大小; `nbsp`: 根据字体设置的空格大小|
+|`decode`|Boolean|false|是否对文本进行解码, 可以解析的有 `&nbsp;` `&lt;` `&gt;` `&amp;` `&apos;` `&ensp;` `&emsp;`|
