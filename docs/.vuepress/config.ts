@@ -121,7 +121,7 @@ export default defineUserConfig({
           sidebar: [
             {
               text: "uniapp学习笔记",
-              items: ["uniapp基础","uniapp组件"],
+              items: ["uniapp基础","uniapp组件","uniapp生命周期"],
             },
           ],
         },
