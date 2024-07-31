@@ -61,7 +61,10 @@ onLoad((e) => {
 })
 ```
 
-### 2.2 `onReady`
+### 2.2 `onShow`
+- 新页面跳转，离开当前页面再返回该页面，都会触发`onShow`函数
+
+### 2.3 `onReady`
 1. 使用方法：页面加载完成后，可以获取页面中的元素，如果需要获取页面中的组件实例，可以在`onReady`中获取
 ```vue
 <template>
@@ -76,5 +79,38 @@ const child = ref(null)
 onReady(() => {
   console.log(child.value) // 获取组件实例
 })
+</script>
+```
+
+### 2.4 `onHide`
+- 用户离开页面时触发，可以做一些用户离开页面关闭自动播放等操作逻辑 
+
+### 2.5 `onUnload`
+- 页面卸载时触发，比如使用页面跳转组件`<navigator>`时，`open-type`选择`relanch`，表示关闭其他所有页面，打开新的页面，就会触发`onUnload`函数，在`onUnload`中可以做一些页面跳转后需要做的操作
+
+### 2.6 `onPageScroll`
+- 监听页面滚动，参数为Object，包含`scrollTop`，`scrollTop`为页面滚动距离
+```js
+import { onPageScroll } from '@dcloudio/uni-app'
+onPageScroll((e) => {
+  console.log(e) // {scrollTop: 0}
+})
+```
+
+## 3. 应用生命周期
+- 在`App.vue`中
+```vue
+<script>
+	export default {
+		onLaunch: function() {
+			console.log('App Launch') // 首次登录调用，可以用于验证登录信息
+		},
+		onShow: function() { // 优先于页面的onShow
+			console.log('App Show')
+		},
+		onHide: function() { // 优先于页面的onHide
+			console.log('App Hide')
+		}
+	}
 </script>
 ```
