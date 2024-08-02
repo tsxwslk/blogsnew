@@ -64,8 +64,15 @@ permalink: /uniapp/irrmwdto/
 }
 ```
 
-## 3. 常用尺寸单位`rpx`
+## 3. CSS设置
+### 3.1 常用尺寸单位`rpx`
 - rpx 即响应式 px，一种根据屏幕宽度自适应的动态单位。以 750 宽的屏幕为基准，750rpx 恰好为屏幕宽度。屏幕变宽，rpx 实际显示效果会等比放大，但在 App（vue2 不含 nvue） 端和 H5（vue2） 端屏幕宽度达到 960px 时，默认将按照 375px 的屏幕宽度进行计算。
+
+### 3.2 安全区域
+- 微信小程序的安全区域指的是微信小程序的主体内容区域，即除去导航栏、状态栏、底部安全区域以外的区域。
+```js
+padding-bottom: env(safe-area-inset-bottom); // 安全区域距离底部的距离
+```
 
 ## 4. 全局Api
 ### 4.1 交互反馈`showToast`与`hideToast`
@@ -248,9 +255,21 @@ const requestTask = uni.request({
         name: 'name',
         age: 18
 	},
+  method: 'POST', // 接口方式
+  header:{
+    token:''
+    contentType:'application/json'
+  },
+  dataType: 'json', // 接口数据类型
+  timeout: 10000, // 超时时间
 	success: function(res) {
 		console.log(res.data);
-	}
+	},
+	fail: function(err) {
+		console.log(err);
+	},
+  complete: function(res) {
+  }
 });
 // 中断请求任务
 requestTask.abort();
