@@ -41,6 +41,11 @@ export default defineUserConfig({
             icon: "ph:file-js",
             link: "/notes/JavaScript/JS基础.md",
           },
+          {
+            text: "TypeScript",
+            icon: "nonicons:typescript-16",
+            link: "/notes/TypeScript/TypeScript简介.md",
+          },
         ],
       },
       {
@@ -67,6 +72,11 @@ export default defineUserConfig({
             text: "插件",
             icon: "mingcute:plugin-2-line",
             link: "/notes/Plugin/Animate动画库.md",
+          },
+          {
+            text:"算法题",
+            icon:"simple-icons:leetcode",
+            link:"/notes/leetcode/leetCode01.md"
           },
         ],
       },
@@ -106,6 +116,16 @@ export default defineUserConfig({
           ],
         },
         {
+          dir: "TypeScript",
+          link: "/TypeScript/",
+          sidebar: [
+            {
+              text: "TypeScript学习笔记",
+              items: ["TypeScript简介","TypeScript类型"],
+            },
+          ],
+        },
+        {
           dir: "Vue3", 
           link: "/Vue3/", 
           sidebar: [
@@ -122,6 +142,26 @@ export default defineUserConfig({
             {
               text: "uniapp学习笔记",
               items: ["uniapp基础","uniapp组件","uniapp生命周期"],
+            },
+          ],
+        },
+        {
+          dir: "Plugin", 
+          link: "/Plugin/", 
+          sidebar: [
+            {
+              text: "常用插件",
+              items: ["Animate动画库"],
+            },
+          ],
+        },
+        {
+          dir: "leetcode", 
+          link: "/leetcode/", 
+          sidebar: [
+            {
+              text: "算法题学习",
+              items: ["leetCode01"],
             },
           ],
         },

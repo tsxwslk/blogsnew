@@ -2,7 +2,7 @@
 title: Animate动画库
 author: 怡然
 createTime: 2024/05/31 15:41:16
-permalink: /article/7crjgfmz/
+permalink: /Plugin/7crjgfmz/
 ---
 
 :::info

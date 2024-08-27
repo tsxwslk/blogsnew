@@ -21,7 +21,7 @@ permalink: /JavaScript/ewr4nfz5/
   ::: details 点击查看代码
   ```js
   typeof 0; //number
-  typeof "wenbo"; //string
+  typeof "demo"; //string
   typeof true; //boolean
   typeof undefined; //undefined
   typeof Symbol(1); //symbol
@@ -345,6 +345,7 @@ console.log(outside()(10)); // 20（而不是 10）
 - 箭头函数总是匿名的。
 ### 4.6 预定义函数
 > JavaScript 语言有几个顶级的内置函数
+
 |函数|用途|
 |--------|----------|
 |`eval()`|执行方法计算以字符串表示的 JavaScript 代码。|
