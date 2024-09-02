@@ -21,7 +21,7 @@ permalink: /article/673avqbq/
 | `onbeforeunload` | 文档卸载之前运行的脚本                           |
 | `onerror`        | 在错误发生时执行的脚本                           |
 | `onhaschange`    | 当文档以改变时运行的脚本                         |
-| onload           | 页面结束加载之后触发                             |
+| `onload`           | 页面结束加载之后触发                             |
 | `onmessgae`      | 在消息被触发时运行的脚本                         |
 | `onoffline`      | 当文档离线时运行的脚本                           |
 | `ononline`       | 当文档上线时运行的脚本                           |
@@ -32,39 +32,39 @@ permalink: /article/673avqbq/
 | `onresize`       | 当浏览器窗口被调整大小时触发                     |
 | `onstorage`      | 在 web Storage 区域更新后运行的脚本              |
 | `onundo`         | 在文档执行 undo 时运行的脚本                     |
-| onunload         | 一旦页面已下载时触发（或者浏览器窗口已被关闭）。 |
+| `onunload`         | 一旦页面已下载时触发（或者浏览器窗口已被关闭）。 |
 
 #### Form 事件
 
 > 由 HTML 表单内的动画触发的时间，应用到几乎所有 HTML 元素，但最常用在 form 元素中
 
-| onblur          | 元素失去焦点时运行             |
+| `onblur`          | 元素失去焦点时运行             |
 | --------------- | ------------------------------ |
-| onchange        | 元素值被改变时运行             |
+| `onchange`        | 元素值被改变时运行             |
 | `oncontextmenu` | 当上下文菜单被触发时运行       |
-| onfocus         | 当元素活的焦点时运行           |
+| `onfocus`         | 当元素活的焦点时运行           |
 | `onformchange`  | 在表单改变时运行               |
 | `onforminput`   | 当表单获得用户输入时运行       |
 | `oninput`       | 当元素获得用户输入时运行       |
 | `oninvalid`     | 当元素无效时运行               |
-| onreset         | 当表单中的重置按钮被点击时运行 |
-| onselect        | 在元素中文本被选中后触发       |
-| onsubmit        | 在提交表单时触发               |
+| `onreset`         | 当表单中的重置按钮被点击时运行 |
+| `onselect`        | 在元素中文本被选中后触发       |
+| `onsubmit`        | 在提交表单时触发               |
 
 #### Keyboard 事件
 
-| onkeydown  | 按下按键时触发     |
+| `onkeydown`  | 按下按键时触发     |
 | ---------- | ------------------ |
-| onkeypress | 用户敲击按钮是触发 |
-| onkeyup    | 释放按键时触发     |
+| `onkeypress` | 用户敲击按钮是触发 |
+| `onkeyup`    | 释放按键时触发     |
 
 #### Mouse 事件
 
 > 由鼠标或类似用户动作触发
 
-| onclick        | 元素上发生鼠标点击时触发                 |
+| `onclick`        | 元素上发生鼠标点击时触发                 |
 | -------------- | ---------------------------------------- |
-| ondblclick     | 元素上发生鼠标双击时触发                 |
+| `ondblclick`     | 元素上发生鼠标双击时触发                 |
 | `ondrag`       | 元素被拖动时运行的脚本                   |
 | `ondragend`    | 在拖动操作末端运行的脚本                 |
 | `ondragenter`  | 当元素已被拖动到有效拖放区域时运行的脚本 |
@@ -72,11 +72,11 @@ permalink: /article/673avqbq/
 | `ondragover`   | 当元素在拖放目标上正在被拖动时运行       |
 | `ondragstart`  | 当拖动操作开始时运行                     |
 | `ondrop`       | 当被拖元素正在被拖放时运行（释放鼠标）   |
-| onmousedown    | 当元素上按下鼠标按钮时触发               |
-| onmousemove    | 当鼠标指针移到元素上时触发 ，持续触发    |
-| onmouseout     | 当鼠标指针移出元素时触发                 |
-| onmouseover    | 当鼠标指针移到元素上时触发，刚进入时触发 |
-| onmouseup      | 当在元素上释放鼠标按钮时触发             |
+| `onmousedown`    | 当元素上按下鼠标按钮时触发               |
+| `onmousemove`    | 当鼠标指针移到元素上时触发 ，持续触发    |
+| `onmouseout`     | 当鼠标指针移出元素时触发                 |
+| `onmouseover`    | 当鼠标指针移到元素上时触发，刚进入时触发 |
+| `onmouseup`      | 当在元素上释放鼠标按钮时触发             |
 | `onmousewheel` | 当鼠标滚轮正在被滚动式运行               |
 | `onscroll`     | 当元素滚动条被滚动时运行的脚本           |
 (该方法在后续工作中开发配置化大屏项目时用到，用于拖拽生成组件)
@@ -85,7 +85,7 @@ permalink: /article/673avqbq/
 
 > 有媒介，比如视频图像和音频处罚的事件，适用于所有 HTML 元素，但常见于媒介元素中
 
-| onabort              | 在退出时运行的脚本                                       |
+| `onabort`              | 在退出时运行的脚本                                       |
 | -------------------- | -------------------------------------------------------- |
 | `oncanplay`          | 当文件就绪可以开始播放是触发                             |
 | `oncanplaythrough`   | 当媒介能够无需因缓冲而停止即可播放至结尾是运行           |
@@ -113,17 +113,17 @@ permalink: /article/673avqbq/
 
 #### HTML
 
-| button   | 按钮                   |
+| `button`   | 按钮                   |
 | -------- | ---------------------- |
-| checkout | 复选框                 |
-| file     | 文件上传               |
-| hidden   | 定义隐藏的输入字段     |
-| image    | 定义图像形式的提交按钮 |
-| password | 定义密码字段           |
-| radio    | 单选按钮               |
-| reset    | 重置按钮               |
-| submit   | 提交按钮               |
-| text     | 输入字段               |
+| `checkout` | 复选框                 |
+| `file`     | 文件上传               |
+| `hidden`   | 定义隐藏的输入字段     |
+| `image`    | 定义图像形式的提交按钮 |
+| `password` | 定义密码字段           |
+| `radio`    | 单选按钮               |
+| `reset`    | 重置按钮               |
+| `submit`   | 提交按钮               |
+| `text`     | 输入字段               |
 
 #### HTML5
 
