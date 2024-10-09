@@ -112,3 +112,234 @@ morningGreet();
 2. `this`：箭头函数不会创造自己的`this`上下文，而是从外围的作用域中继承`this`值，无论箭头函数在哪里被调用，它的`this`指向始终与定义时所在的上下文相同。
 3. `arguments`：箭头函数内部的`arguments`对象实际上是一个由剩余参数操作符(`...`)提供的数组，而普通函数的`arguments`是一个类数组对象。
 4. `new`操作符：箭头函数不能作为构造函数使用，因此不能使用`new`关键字来调用，否则会报`TypeError`的错。
+
+### 7. AMD和CommonJS、ES6模块的区别
+> AMD和CommonJS、ES6模块是JavaScript模块化编程中三种主要的模块系统。
+
+1. CommonJS：
+   - 同步加载：CommonJS模块是同步加载执行的，意味着当一个模块被加载时，其所有的代码都会被立即执行，并且阻塞其他代码的执行。
+   - 导入和导出：CommonJS使用`module.exports`导出模块接口，并使用`require`动态加载模块。
+   - 单次执行：每个模块在第一次加载时只执行一次，并且其导出的值会被缓存。
+   ```js
+   // 模块文件：math.js
+   module.exports = {
+   add: function(x, y) {
+      return x + y;
+   }
+   };
+
+   // 主文件：index.js
+   const math = require('./math');
+   console.log(math.add(1, 2)); // 输出 "3"
+   ```
+
+2. AMD：
+   - 异步加载：AMD模块式异步加载的，这意味着模块加载不会阻塞其他代码的执行。
+   - 定义模块：使用`define`函数定义模块，模块定义是一个立即执行的函数表达式，可以接收依赖项作为参数。
+   - 加载模块：使用`require`函数加载模块，通常需要一个模块加载器。
+   ```js
+   // 定义一个模块
+   define(['dependency'], function(dependency) {
+      return {
+         doSomething: function() {
+            dependency.doSomethingElse();
+         }
+      };
+   });
+
+   // 加载模块
+   require(['myModule'], function(myModule) {
+      myModule.doSomething();
+   });
+   ```
+
+3. ES6 Modules:
+   - 静态导入/导出：ES6模块使用`import`和`export`关键字来声明模块依赖关系和导出成员。这些导入和导出都是静态解析的，意味着编译器可以在编译阶段确定所有依赖关系。
+   - 异步加载：虽然ES6模块本身是静态解析的，但在运行时他们可以被异步加载。在支持动态导入的环境下，可以使用`import()`表达式来异步加载模块。
+   - 顶层作用域：ES6模块具有自己的顶层作用域，不同于全局作用域，因此`import`和`export`不能在脚本的任何地方使用，只能在顶级作用域使用。
+   ```js
+   // 模块文件：math.js
+   export const add = (x, y) => {
+      return x + y;
+   };
+
+   // 主文件：index.js
+   import { add } from './math';
+   console.log(add(1, 2)); // 输出 "3"
+   ```
+
+### 7. let, const, var的区别
+| 区别               | `var` | `let` | `const` |
+| ------------------ | ----- | ----- | ------- |
+| 是否有块级作用域   | 否    | 是    | 是      |
+| 是否存在变量提升   | 是    | 否    | 否      |
+| 是否添加全局属性   | 是    | 否    | 否      |
+| 能否重复声明变量   | 能    | 否    | 否      |
+| 是否存在暂时性死区 | 否    | 是    | 是      |
+| 是否必须设置初始值 | 否    | 否    | 是      |
+| 能否改变指针指向   | 能    | 能    | 否      |
+
+### 8. new操作符的实现原理
+1. 首先创建一个新的空对象。
+2. 设置原型，将对象的原型设置为函数的prototype对象。
+3. 让函数的this指向这个对象，执行构造函数的代码（为这个新对象添加属性）
+4. 判断函数的返回值类型，如果是值类型，返回创建的对象；如果是引用类型，就返回这个引用类型的对象。
+
+```js
+function Person(name, age) {
+   this.name = name;
+   this.age = age;
+}
+
+Person.prototype.sayHello = function() {
+   console.log("Hello, my name is " + this.name);
+};
+
+// 使用 new 操作符创建对象
+let alice = new Person('Alice', 30);
+alice.sayHello(); // 输出 "Hello, my name is Alice"
+// 模拟new操作符
+function _new(Constructor, ...args) {
+   // 创建一个新的对象
+   const newObj = {};
+
+   // 将新对象的原型设置为构造函数的 prototype
+   newObj.__proto__ = Constructor.prototype;
+
+   // 绑定 this 到新对象，并执行构造函数
+   const result = Constructor.apply(newObj, args);
+
+   // 检查构造函数是否返回一个对象
+   return result instanceof Object ? result : newObj;
+}
+
+// 使用自定义的_new函数创建对象
+let bob = _new(Person, 'Bob', 25);
+bob.sayHello(); // 输出 "Hello, my name is Bob"
+```
+
+### 9. 常用的数组的方法
+1. 操作方法
+   - `push`：向数组末尾添加一个或多个元素，并返回新的长度。
+      ```js
+      let arr = [1, 2, 3];
+      arr.push(4); // arr 现在是 [1, 2, 3, 4]
+      ```
+   - `pop`：移除数组末尾的元素，并返回被移除的元素。
+      ```js
+      let arr = [1, 2, 3];
+      arr.pop(); // 返回 3, arr 现在是 [1, 2]
+      ``` 
+   - `shift`：移除数组开头的元素，并返回被移除的元素。
+      ```js
+      let arr = [1, 2, 3];
+      arr.shift(); // 返回 1, arr 现在是 [2, 3]
+      ```
+   - `unshift`：向数组开头添加一个或多个元素，并返回新的长度。
+      ```js
+      let arr = [1, 2, 3];
+      arr.unshift(0); // arr 现在是 [0, 1, 2, 3]
+      ```
+   - `splice`：用于添加或删除数组中的元素。
+      ```js
+      let arr = [1, 2, 3, 4];
+      arr.splice(1, 2); // 删除索引1开始的两个元素，arr 现在是 [1, 4]
+      arr.splice(1, 0, 2, 3); // 在索引1处插入2, 3，arr 现在是 [1, 2, 3, 4]
+      ```
+   - `concat`：将一个或多个数组合并为一个新数组，并返回该数组。
+      ```js
+      let arr1 = [1, 2], arr2 = [3, 4];
+      let newArr = arr1.concat(arr2); // newArr 现在是 [1, 2, 3, 4]
+      ```
+   - `slice`：返回数组的一部分，并不会修改原数组。
+      ```js
+      let arr = [1, 2, 3, 4];
+      let newArr = arr.slice(1, 3); // newArr 现在是 [2, 3]
+      ```   
+   - `reverse`：反转数组中元素的顺序，并返回原数组。
+      ```js
+      let arr = [1, 2, 3];
+      arr.reverse(); // arr 现在是 [3, 2, 1]
+      ```
+   - `sort`：对数组元素进行排序，默认按照转换为字符串后的字典顺序。
+      ```js
+      let arr = [3, 1, 2];
+      arr.sort(); // arr 现在是 [1, 2, 3] （默认按字符串比较）
+      arr.sort((a, b) => a - b); // 数字排序
+      ```
+   - `fill`：用指定的值填充数组的一部分或全部。
+      ```js
+      let arr = [1, 2, 3, 4];
+      arr.fill(0); // arr 现在是 [0, 0, 0, 0]
+      ```
+
+2. 查询方法：
+   - `indexOf`/`lastIndexOf`：返回数组中第一个匹配项的索引或最后一个匹配项的索引。
+      ```js
+      let arr = [1, 2, 3, 2];
+      arr.indexOf(2); // 返回 1
+      arr.lastIndexOf(2); // 返回 3
+      ```
+   - `includes`：检查数组是否包含某个元素。
+      ```js
+      let arr = [1, 2, 3];
+      arr.includes(2); // 返回 true
+      ```
+
+3. 迭代方法：
+   - `forEach`：对数组中的每个元素执行一个方法。
+      ```js
+      let arr = [1, 2, 3];
+      arr.forEach(item => console.log(item));
+      ```
+   - `map`：创建一个新数组，其结果是该数组中的每个元素执行方法的结果。
+      ```js
+      let arr = [1, 2, 3];
+      let newArr = arr.map(item => item * 2); // newArr 现在是 [2, 4, 6]
+      ```
+   - `filter`：创建一个新数组，其结果是该数组中满足条件的元素。
+      ```js
+      let arr = [1, 2, 3, 4];
+      let even = arr.filter(item => item % 2 === 0); // even 现在是 [2, 4]
+      ```
+   - `reduce`/`reduceRight`：对数组中的每个元素执行方法，将其结果汇总为单个值。
+      ```js
+      let arr = [1, 2, 3, 4];
+      let sum = arr.reduce((acc, cur) => acc + cur, 0); // sum 现在是 10
+      ```
+   - `some`/`every`：`some` 检查数组中是否有至少一个元素满足条件；`every` 检查数组中的所有元素是否都满足条件。
+      ```js
+      let arr = [1, 2, 3, 4];
+      arr.some(item => item > 2); // 返回 true
+      arr.every(item => item < 5); // 返回 true
+      ```
+
+### 10. 数组与字符串的转换方法
+1. 字符串转数组：
+   - `split`：用于将字符串分割成字符串数组，第一个参数是分隔符，可以是字符串或正则表达式。
+      ```js
+      let str = "hello world";
+      let arr = str.split(" "); // ["hello", "world"]
+      ```
+   - 扩展运算符`...`
+      ```js
+      let str = "hello";
+      let arr = [...str]; // ["h", "e", "l", "l", "o"]
+      ```
+   - `Array.from`：用于将类数组对象或可迭代对象转换为数组。
+      ```js
+      let str = "hello";
+      let arr = Array.from(str); // ["h", "e", "l", "l", "o"]
+      ```
+
+2. 数组转字符串：
+   - `join`：用于将数组的所有元素连接成一个字符串，第一个参数是连接符，默认为空字符串。
+      ```js
+      let arr = ["hello", "world"];
+      let str = arr.join(" "); // "hello world"
+      ```
+   - `toString`：用于将数组转换为逗号分隔的字符串。
+      ```js
+      let arr = ["hello", "world"];
+      let str = arr.toString(); // "hello,world"
+      ```
