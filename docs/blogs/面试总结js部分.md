@@ -343,3 +343,25 @@ bob.sayHello(); // 输出 "Hello, my name is Bob"
       let arr = ["hello", "world"];
       let str = arr.toString(); // "hello,world"
       ```
+
+### 11. for in和for of的区别
+- 时间点不同：for in 在js出现之初就有，for of出现在ES6之后
+- 遍历的内容不同：for in用于遍历对象的可枚举属性(包括原型链上的可枚举属性)，for of用于遍历可迭代对象的值
+- for-in 循环适用于遍历对象，包括普通对象、数组、函数等，而 for-of 循环适用于遍历可迭代对象，包括数组、字符串、Map、Set、TypedArray 等。
+- for-in 循环的迭代顺序是不确定的，因为对象的属性没有固定的顺序。而 for-of 循环的迭代顺序是确定的，因为可迭代对象的值是按照一定顺序排列的。
+- for-in 循环遍历对象时，会遍历对象的原型链，并且会包含从原型链继承的属性。而 for-of 循环遍历的对象是可迭代对象，它们的值是可枚举的。
+```js
+// for in
+const arr = ['a','b','c','d']
+for(const index in arr) {
+  console.log(index) 
+}
+// 打印结果：'0' '1' '2' '3'，可以发现打印的是数组的下标，数组是特殊的对象，下标是数组对象身上的可枚举属性，打印的就是这个可枚举属性
+
+// for of
+for(const item of arr) {
+  console.log(item)
+}
+// 打印结果：'a' 'b' 'c' 'd'，for of打印的就是数组里的每一项元素的值
+```
+> 总结：for of遍历键值对的值，for in 遍历键值对的键。

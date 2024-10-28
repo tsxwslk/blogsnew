@@ -179,16 +179,33 @@ const d = null; // null
 ### 5.1 包装对象的概念
 > - `JavaScript` 的 8 种类型之中，`undefined`和`null`其实是两个特殊值，`object`属于复合类型，剩下的五种属于原始类型（primitive value），代表最基本的、不可再分的值（`boolean`、`string`、`number`、`bigint`、`symbol`）。五种原始类型的值，都有对应的包装对象（wrapper object）。所谓“包装对象”，指的是这些值在需要时，会自动产生的对象。
 >
+
+```js
+"hello".charAt(1); // 'e'
+```
+- 上面示例中，字符串`hello`执行了`charAt()`方法。但是，在 `JavaScript` 语言中，只有对象才有方法，原始类型的值本身没有方法。这行代码之所以可以运行，就是因为在调用方法时，字符串会自动转为包装对象，`charAt()`方法其实是定义在包装对象上。这样的设计大大方便了字符串处理，省去了将原始类型的值手动转成对象实例的麻烦。
+
 > - 五种包装对象之中，`symbol` 类型和 `bigint` 类型无法直接获取它们的包装对象（***即`Symbol()`和`BigInt()`不能作为构造函数使用***），但是剩下三种可以（`boolean`、`string`、`number`）。
 >
+
+```js
+const s = new String("hello");
+typeof s; // 'object'
+s.charAt(1); // 'e'
+```
+
+- 上面示例中，s就是字符串`hello`的包装对象，`typeof`运算符返回`object`，不是`string`，但是本质上它还是字符串，可以使用所有的字符串方法。
+
 > - `String()`只有当作构造函数使用时（即带有`new`命令调用），才会返回包装对象。如果当作普通函数使用（不带有`new`命令），返回就是一个普通字符串。其他两个构造函数`Number()`和`Boolean()`也是如此。
 
+
+
+### 5.2 包装对象类型与字面量类型
+由于包装对象的存在，导致每一个原始类型的值都有包装对象和字面量两种情况。
 ```js
 "hello"; // 字面量
 new String("hello"); // 包装对象
 ```
-
-### 5.2 包装对象类型与字面量类型
 > - 为了区分这两种情况，TypeScript 对五种原始类型分别提供了大写和小写两种类型（`Boolean 和 boolean`，`String 和 string`，`Number 和 number`，`BigInt 和 bigint`，`Symbol 和 symbol`）。
 >
 > - 其中，大写类型同时包含包装对象和字面量两种情况，小写类型只包含字面量，不包含包装对象。
@@ -248,7 +265,39 @@ obj = "hi"; // 报错
 obj = 1; // 报错
 ```
 
-## 7. 值类型
+```ts
+const o1: Object = { foo: 0 };
+const o2: object = { foo: 0 };
+
+o1.toString(); // 正确
+o1.foo; // 报错
+
+o2.toString(); // 正确
+o2.foo; // 报错
+```
+- 上面示例中，`toString()`是对象的原生方法，可以正确访问。`foo`是自定义属性，访问就会报错。
+
+## 7. `undefined`和`null`的特殊性
+> - `undefined`和`null`作为值有一个特殊的地方，任何其他类型的变量都可以赋值为`undefined`和`null`。
+> - `JavaScript` 的行为是，变量如果等于`undefined`就表示还没有赋值，如果等于`null`就表示值为空。所以，`TypeScript` 就允许了任何类型的变量都可以赋值为这两个值。
+
+```ts
+let age: number = 24;
+
+age = null; // 正确
+age = undefined; // 正确
+```
+> - `TypeScript` 提供了一个编译选项`strictNullChecks`。只要打开这个选项，`undefined`和`null`就不能赋值给其他类型的变量（除了`any`类型和`unknown`类型）。
+> - 打开`strictNullChecks`以后，`undefined`和`null`这两种值也不能互相赋值了。
+```json
+{
+  "compilerOptions": {
+    "strictNullChecks": true
+    // ...
+  }
+}
+```
+## 8. 值类型
 - `TypeScript` 规定，单个值也是一种类型，称为“值类型”。
 - `TypeScript` 推断类型时，遇到`const`命令声明的变量，如果代码里面没有注明类型，就会推断该变量是值类型。
 ```ts
