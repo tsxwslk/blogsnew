@@ -121,7 +121,7 @@ export default defineUserConfig({
           sidebar: [
             {
               text: "TypeScript学习笔记",
-              items: ["TypeScript简介","TypeScript类型"],
+              items: ["TypeScript简介","TypeScript类型","TypeScript数组"],
             },
           ],
         },

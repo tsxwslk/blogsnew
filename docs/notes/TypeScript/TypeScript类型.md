@@ -326,3 +326,144 @@ let y: number = 4 + 1; // y属于父类型
 x = y; // 报错
 y = x; // 正确
 ```
+
+## 9. 联合类型
+- 联合类型指的是多个类型组成一个新类型，使用符号`|`|表示。
+
+```ts
+let x: string | number;
+
+x = 123; // 正确
+x = "abc"; // 正确
+// 上面示例中，变量x就是联合类型string|number，表示它的值既可以是字符串，也可以是数值。
+```
+
+- 联合类型可以与值类型相结合，表示一个变量的值有若干种可能。
+```ts
+let setting: true | false;
+
+let gender: "male" | "female";
+
+let rainbowColor: "赤" | "橙" | "黄" | "绿" | "青" | "蓝" | "紫";
+```
+
+- 打开编译选项`strictNullChecks`后，其他类型的变量不能赋值为`undefined`或`null`。这时，如果某个变量确实可能存在空值，可以采用联合类型的写法。
+```ts
+let name: string | null;
+
+name = "John";
+name = null;
+```
+
+- 如果一个变量有多种类型，处理时往往需要类型缩小，区分该值到底属于哪一种类型，然后再进一步处理。
+```ts
+function printId(id: number | string) {
+  if (typeof id === "string") {
+    console.log(id.toUpperCase());
+  } else {
+    console.log(id);
+  }
+}
+```
+
+## 10. 交叉类型
+- 指多个类型组成一个新的类型，用`&`表示
+- 交叉类型`A&B`表示任何一个类型必须同时属于A和B，才属于交叉类型`A&B`。
+```ts
+let x: number & string;
+// 上面示例中，变量x同时是数值和字符串，这当然是不可能的，
+// 所以 TypeScript 会认为x的类型实际是never。
+```
+
+- 交叉类型的主要用途是表示对象的合成。
+- 交叉类型常常用来给对象添加新属性。
+```ts
+let obj: { foo: string } & { bar: string };
+
+obj = {
+  foo: "hello",
+  bar: "world",
+};
+```
+
+```ts
+type A = { foo: number };
+
+type B = A & { bar: number };
+```
+
+## 11. `type`命令
+- `type`命令用来定义一个类型的别名。
+```ts
+type Age = number;
+
+let age: Age = 55;
+// 使用Age作为number类型，增加代码可读性，使复杂类型使用更方便，以便于修改变量类型。
+```
+
+- 别名不允许重名。
+- 别名的作用域是块级作用域，代码块内部定义的名称影响不到外部。
+```ts
+type Color = "red";
+
+if (Math.random() < 0.5) {
+  type Color = "blue";
+}
+```
+
+- 别名支持使用表达式，支持嵌套
+```ts
+type World = "world";
+type Greeting = `hello ${World}`;
+```
+
+## 12. `typeof`运算符
+- `TypeScript`中的`typeof`运算符，返回的不是字符串，而是该值的`TypeScript`类型。
+```ts
+const a = { x: 0 };
+
+type T0 = typeof a; // { x: number }  返回变量a的 TypeScript 类型
+type T1 = typeof a.x; // number   返回属性x的类型
+```
+
+- 由于编译时不会进行 `JavaScript` 的值运算，所以 `TypeScript` 规定，`typeof` 的参数只能是标识符，不能是需要运算的表达式。
+```ts
+type T = typeof Date(); // 报错
+```
+
+- `typeof` 命令的参数不能是类型。
+```ts
+type Age = number;
+type MyAge = typeof Age; // 报错
+```
+
+## 13. 块级类型声明
+- `TypeScript` 支持块级类型声明，即类型可以声明在代码块（用大括号表示）里面，并且只在当前代码块有效。
+```ts
+if (true) {
+  type T = number;
+  let v: T = 5;
+} else {
+  type T = string;
+  let v: T = "hello";
+}
+```
+
+## 14. 类型兼容
+- `TypeScript` 的类型存在兼容关系，某些类型可以兼容其他类型。
+- 如果类型`A`的值可以赋值给类型`B`，那么类型`A`就称为类型`B`的子类型（`subtype`）。
+```ts
+type T = number | string;
+
+let a: number = 1;
+let b: T = a;
+// 变量a和b的类型是不一样的，但是变量a赋值给变量b并不会报错。b的类型兼容a的类型。
+```
+```ts
+let a: "hi" = "hi";
+let b: string = "hello";
+
+b = a; // 正确
+a = b; // 报错
+// hi是string的子类型，string是hi的父类型。所以，变量a可以赋值给变量b，但是反过来就会报错。
+```
