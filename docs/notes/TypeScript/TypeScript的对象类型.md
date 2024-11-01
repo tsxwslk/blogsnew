@@ -1,5 +1,5 @@
 ---
-title: TypeScript 的对象类型
+title: TypeScript的对象类型
 author: 怡然
 createTime: 2024/10/31 15:11:09
 permalink: /TypeScript/lfdbyqwg/
@@ -241,4 +241,116 @@ const {
   name: string;
   price: number;
 } = product;
+```
+
+### 6. 结构类型原则
+- 只要对象 `B` 满足 对象 `A` 的结构特征，`TypeScript` 就认为对象 `B` 兼容对象 `A` 的类型，这称为“结构类型”原则（structual typing）。
+```ts
+const A = {
+  x: number;
+};
+
+const B = {
+  x: number;
+  y: number;
+};
+// B兼容A，可以使用A的地方，就可以使用B
+```
+
+- 示例：
+```ts
+type myObj = {
+  x: number;
+  y: number;
+};
+
+function getSum(obj: myObj) {
+  let sum = 0;
+
+  for (const n of Object.keys(obj)) {
+    const v = obj[n]; // 报错
+    sum += Math.abs(v);
+  }
+
+  return sum;
+}
+```
+> 函数`getSum()`要求传入参数的类型是`myObj`，但是实际上所有与`myObj`兼容的对象都可以传入。这会导致`const v = obj[n]`这一行报错，原因是`obj[n]`取出的属性值不一定是数值（`number`），使得变量v的类型被推断为`any`。如果项目设置为不允许变量类型推断为`any`，代码就会报错。
+
+### 7. 严格字面量检查
+- 如果对象使用字面量表示，会触发 `TypeScript` 的严格字面量检查（strict object literal checking）。如果字面量的结构跟类型定义的不一样（比如多出了未定义的属性），就会报错。
+- 如果等号右边不是字面量，而是一个变量，根据结构类型原则，是不会报错的。
+```ts
+const myPoint = {
+  x: 1,
+  y: 1,
+  z: 1,
+};
+
+const point: {
+  x: number;
+  y: number;
+} = myPoint; // 正确
+```
+
+- 规避严格字面量检查，可以使用中间变量。
+```ts
+let myOptions = {
+  title: "我的网页",
+  darkmode: true,
+};
+
+const Obj: Options = myOptions;
+```
+
+- 如果确认字面量没有错误，也可以使用类型断言规避严格字面量检查。
+- 如果允许字面量有多余属性，可以像下面这样在类型里面定义一个通用属性。
+```ts
+let x: {
+  foo: number;
+  [x: string]: any;
+};
+
+x = { foo: 1, baz: 2 }; // Ok
+```
+
+- 编译器选项`suppressExcessPropertyErrors`，可以关闭多余属性检查。
+```json
+{
+  "compilerOptions": {
+    "suppressExcessPropertyErrors": true
+  }
+}
+```
+
+### 8. 最小可选属性规则
+- 如果一个对象的所有属性都是可选的，会触发最小可选属性规则。即对象必须至少存在一个可选属性，不能所有可选属性都不存在。
+
+### 9. 空对象
+- 空对象是 `TypeScript` 的一种特殊值，也是一种特殊类型。
+- 空对象没有自定义属性，所以对自定义属性赋值就会报错。空对象只能使用继承的属性，即继承自原型对象`Object.prototype`的属性。
+- `TypeScript` 不允许动态添加属性，所以对象不能分步生成，必须生成时一次性声明所有属性。
+- 如果确实需要分步声明，一个比较好的方法是，使用扩展运算符（`...`）合成一个新对象。
+```ts
+const pt0 = {};
+const pt1 = { x: 3 };
+const pt2 = { y: 4 };
+
+const pt = {
+  ...pt0,
+  ...pt1,
+  ...pt2,
+};
+```
+
+- 空对象作为类型，其实是Object类型的简写形式。各种类型的值（除了null和undefined）都可以赋值给空对象类型，跟Object类型的行为是一样的。
+```ts
+let d: {};
+// 等同于
+// let d:Object;
+
+d = {};
+d = { x: 1 };
+d = "hello";
+d = 2;
 ```
