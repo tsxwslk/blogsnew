@@ -4,11 +4,11 @@ import { plumeTheme } from "vuepress-theme-plume";
 
 export default defineUserConfig({
   lang: "zh-CN",
-  base:'/',
-  title:'泠泠彻夜的笔记',
+  base: "/",
+  title: "泠泠彻夜的笔记",
   port: 7089,
   theme: plumeTheme({
-    hostname:'http://www.iyuwb.com/',
+    hostname: "http://www.iyuwb.com/",
     avatar: {
       url: "/ava.jpg",
       name: "怡然",
@@ -55,13 +55,13 @@ export default defineUserConfig({
           {
             text: "Vue3",
             icon: "mingcute:vue-fill",
-            link: "/notes/Vue3/Vue3基础.md"
+            link: "/notes/Vue3/Vue3基础.md",
           },
           {
             text: "uniapp",
             icon: "ph:union",
-            link: "/notes/uniapp/uniapp基础.md"
-          }
+            link: "/notes/uniapp/uniapp基础.md",
+          },
         ],
       },
       {
@@ -74,9 +74,9 @@ export default defineUserConfig({
             link: "/notes/Plugin/Animate动画库.md",
           },
           {
-            text:"算法题",
-            icon:"simple-icons:leetcode",
-            link:"/notes/leetcode/leetCode01.md"
+            text: "算法题",
+            icon: "simple-icons:leetcode",
+            link: "/notes/leetcode/leetCode01.md",
           },
         ],
       },
@@ -86,32 +86,41 @@ export default defineUserConfig({
       link: "/",
       notes: [
         {
-          dir: "HTML", 
-          link: "/HTML/", 
+          dir: "HTML",
+          link: "/HTML/",
           sidebar: [
             {
               text: "HTML基础",
-              items: ["HTML基础知识","HTML元素A-C","HTML元素D-F","HTML元素H-L","HTML元素M-S","HTML元素T-X","table及相关元素","input元素"],
+              items: [
+                "HTML基础知识",
+                "HTML元素A-C",
+                "HTML元素D-F",
+                "HTML元素H-L",
+                "HTML元素M-S",
+                "HTML元素T-X",
+                "table及相关元素",
+                "input元素",
+              ],
             },
           ],
         },
         {
-          dir: "CSS", 
-          link: "/CSS/", 
+          dir: "CSS",
+          link: "/CSS/",
           sidebar: [
             {
               text: "CSS基础",
-              items: ["CSS选择器","CSS3新增内容","Grid网格布局"],
+              items: ["CSS选择器", "CSS3新增内容", "Grid网格布局"],
             },
           ],
         },
         {
-          dir: "JavaScript", 
-          link: "/JavaScript/", 
+          dir: "JavaScript",
+          link: "/JavaScript/",
           sidebar: [
             {
               text: "JavaScript基础",
-              items: ["JS基础","JS常用方法","webSocket"],
+              items: ["JS基础", "JS常用方法", "webSocket"],
             },
           ],
         },
@@ -121,33 +130,49 @@ export default defineUserConfig({
           sidebar: [
             {
               text: "TypeScript学习笔记",
-              items: ["TypeScript简介","TypeScript类型","TypeScript数组","TypeScript的symbol类型","TypeScript函数类型","TypeScript的对象类型","TypeScript的interface接口"],
+              items: [
+                "TypeScript简介",
+                "TypeScript类型",
+                "TypeScript数组",
+                "TypeScript的symbol类型",
+                "TypeScript函数类型",
+                "TypeScript的对象类型",
+                "TypeScript的interface接口",
+                "TypeScript的class类型",
+              ],
             },
           ],
         },
         {
-          dir: "Vue3", 
-          link: "/Vue3/", 
+          dir: "Vue3",
+          link: "/Vue3/",
           sidebar: [
             {
               text: "Vue3基础学习笔记",
-              items: ["Vue3基础","Vue3基础核心语法","Vue3路由","Vue3状态管理工具pinia","Vue3组件通信","其他常用API"],
+              items: [
+                "Vue3基础",
+                "Vue3基础核心语法",
+                "Vue3路由",
+                "Vue3状态管理工具pinia",
+                "Vue3组件通信",
+                "其他常用API",
+              ],
             },
           ],
         },
         {
-          dir: "uniapp", 
-          link: "/uniapp/", 
+          dir: "uniapp",
+          link: "/uniapp/",
           sidebar: [
             {
               text: "uniapp学习笔记",
-              items: ["uniapp基础","uniapp组件","uniapp生命周期"],
+              items: ["uniapp基础", "uniapp组件", "uniapp生命周期"],
             },
           ],
         },
         {
-          dir: "Plugin", 
-          link: "/Plugin/", 
+          dir: "Plugin",
+          link: "/Plugin/",
           sidebar: [
             {
               text: "常用插件",
@@ -156,8 +181,8 @@ export default defineUserConfig({
           ],
         },
         {
-          dir: "leetcode", 
-          link: "/leetcode/", 
+          dir: "leetcode",
+          link: "/leetcode/",
           sidebar: [
             {
               text: "算法题学习",
@@ -169,9 +194,9 @@ export default defineUserConfig({
     },
     plugins: {
       markdownEnhance: {
-        demo: true
-      }
-    }
+        demo: true,
+      },
+    },
   }),
   bundler: viteBundler(),
 });
