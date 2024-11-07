@@ -139,6 +139,7 @@ export default defineUserConfig({
                 "TypeScript的对象类型",
                 "TypeScript的interface接口",
                 "TypeScript的class类型",
+                "TypeScript泛型"
               ],
             },
           ],
