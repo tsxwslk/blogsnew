@@ -3,6 +3,9 @@ title: 面试总结js部分
 author: 怡然
 createTime: 2024/09/03 16:32:18
 permalink: /article/8m47akpr/
+tags:
+   - 面试
+   - JavaScript
 ---
 
 ### 1. js数据类型
