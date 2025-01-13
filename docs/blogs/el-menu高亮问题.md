@@ -5,7 +5,7 @@ createTime: 2024/05/30 09:48:49
 permalink: /article/740a5g2b/
 tags:
   - element-ui
-  - vue
+  - vue2
 ---
 
 :::info

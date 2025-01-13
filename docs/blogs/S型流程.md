@@ -6,7 +6,7 @@ permalink: /article/ed6yml0p/
 tags:
   - HTML
   - CSS
-  - 自用组件
+  - 自用小组件
 ---
  
 :::info 

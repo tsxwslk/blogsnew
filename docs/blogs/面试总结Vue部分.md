@@ -4,7 +4,8 @@ author: 怡然
 createTime: 2024/11/21 10:23:15
 permalink: /article/63u2gd7j/
 tags:
-  - Vue
+  - vue2
+  - vue3
   - 面试
 ---
 
