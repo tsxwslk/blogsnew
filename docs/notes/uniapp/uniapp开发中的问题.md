@@ -400,3 +400,45 @@ export default{
 </script>
 ```
 :::
+
+## 5. uniapp中路由跳转的传参问题解决
+- 通常情况下，`uniapp`跳转到非`tabBar`页面可以在`url`后面拼接参数传参，如：`'path?key=value&key2=value2'`。
+- 但是使用`uni.switchTab`跳转到`tabBar`页面，如上面所示的选择文件后跳转回工作台页面，需要携带文件的名称和路径回到主页面并且显示，因为不能携带参数，所以采用`storage`的方式存储数据，方法如下所示：
+
+```js
+// 文件目录
+onFileSelected(item) {
+  if (item.type === 'dir') {
+    this.stack.push(item.path);
+    this.fileList = [];
+    this.getPrivateDir(item.path);
+  } else {
+    this.fileInfo.name = item.name
+    this.fileInfo.path = item.path
+    uni.setStorageSync('filePath', item.path);
+    uni.setStorageSync('fileName', item.name);
+    uni.switchTab({
+      url: "/pages/index",
+    });
+  }
+}
+
+// 跳转回的页面，并且获取所传参数
+onShow() {
+  this.timeStamp = new Date().getTime()
+  this.fileInfo.path = uni.getStorageSync('filePath');
+  this.fileInfo.name = uni.getStorageSync('fileName');
+  if (this.fileInfo.name) this.showPerson = true
+}
+```
+
+- 这样存在另一个问题，存在缓存中的数据会在下次app打开时仍然回显，除非是在应用管理中清除了app本身的数据，这显然不是我们需要的操作，因为每次进入app都是需要重新选择相应的文件来进行下一步操作的，最初我尝试过在`onHide`中清除缓存，但是这样会引发另一个问题，及我在选择其他文件确定后再跳转回本页面，由于`onHide`的操作，会导致之前选择的文件丢失，经过分析uniapp中生命周期和钩子函数的调用时刻，最终选择在app启动时调用的钩子函数`onLaunch`中清除已有的缓存。方法如下：
+```js
+onLaunch: function() {
+  uni.removeStorageSync('filePath');
+  uni.removeStorageSync('fileName');
+  this.initApp()
+}
+```
+
+## 6. 

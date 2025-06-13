@@ -46,6 +46,11 @@ export default defineUserConfig({
             icon: "nonicons:typescript-16",
             link: "/notes/TypeScript/TypeScript简介.md",
           },
+          {
+            text: "Node.js",
+            icon: "akar-icons:node-fill",
+            link: "/notes/Node/Nodejs基础.md",
+          },
         ],
       },
       {
@@ -140,6 +145,19 @@ export default defineUserConfig({
                 "TypeScript的interface接口",
                 "TypeScript的class类型",
                 "TypeScript泛型"
+              ],
+            },
+          ],
+        },
+        {
+          dir: "Node",
+          link: "/Node/",
+          sidebar: [
+            {
+              text: "Nodejs学习笔记",
+              items: [
+                "Nodejs基础",
+                "Nodejs文件系统",
               ],
             },
           ],
