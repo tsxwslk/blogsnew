@@ -51,6 +51,11 @@ export default defineUserConfig({
             icon: "akar-icons:node-fill",
             link: "/notes/Node/Nodejs基础.md",
           },
+          {
+            text: "python",
+            icon: "material-icon-theme:python",
+            link: "/notes/python/python基础.md",
+          },
         ],
       },
       {
@@ -82,6 +87,11 @@ export default defineUserConfig({
             text: "算法题",
             icon: "simple-icons:leetcode",
             link: "/notes/leetcode/leetCode01.md",
+          },
+          {
+            text: "cesium",
+            icon: "simple-icons:leetcode",
+            link: "/notes/cesium/cesium基础.md",
           },
         ],
       },
@@ -158,6 +168,7 @@ export default defineUserConfig({
               items: [
                 "Nodejs基础",
                 "Nodejs文件系统",
+                "HTTP协议",
               ],
             },
           ],
@@ -209,6 +220,26 @@ export default defineUserConfig({
             },
           ],
         },
+        {
+          dir: "cesium",
+          link: "/cesium/",
+          sidebar: [
+            {
+              text: "cesium学习",
+              items: ["cesium基础"],
+            },
+          ],
+        },
+        {
+          dir: "python",
+          link: "/python/",
+          sidebar: [
+            {
+              text: "python",
+              items: ["python基础","python分支与循环","python的列表、元组"],
+            },
+          ],
+        }
       ],
     },
     plugins: {

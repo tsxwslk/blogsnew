@@ -190,3 +190,192 @@ fs.rename('./蜀道难.txt','./资料/蜀道难.txt',err=>{
   console.log('重命名成功')
 })
 ```
+
+## 4. 文件删除
+- `unlink`方法
+
+```js
+fs.unlink('./demo-1.txt',err=>{ // 同步方法为unlinkSync
+  if(err){
+    console.log('删除失败')
+    return 
+  }
+  console.log('删除成功')
+})
+```
+
+- `rm`方法
+
+```js
+fs.rm('./资料/蜀道难.txt',err=>{ // 同步方法为rmSync
+  if(err){
+    console.log('删除失败')
+    return 
+  }
+  console.log('删除成功')
+})
+```
+
+## 5. 文件夹操作
+### 5.1 创建文件夹`mkdir`
+- 普通创建文件夹
+```js
+fs.mkdir('./html',err=>{
+  if(err){
+    console.log('创建失败')
+    return 
+  }
+  console.log('创建成功')
+})
+```
+
+- 递归创建文件夹`a/b/c`，需加上参数`recursive`。
+```js
+fs.mkdir('./a/b/c',{recursive:true},err=>{
+  if(err){
+    console.log('创建失败')
+    return 
+  }
+  console.log('创建成功')
+})
+```
+
+### 5.2 读取文件夹
+- `readdir`操作
+```js
+fs.readdir('./资料',(err,data)=>{
+  if(err){
+    console.log('读取失败')
+    return
+  }
+  console.log(data)
+})
+```
+
+### 5.3 删除文件夹
+- `rmdir`
+
+```js
+fs.rmdir('./html',err=>{
+  if(err){
+    console.log('删除失败')
+    return 
+  }
+  console.log('删除成功')
+})
+```
+
+- 递归删除，和上述递归创建一样，使用`recursive`参数
+
+```js
+fs.rmdir('./a',{recursive:true},err=>{
+  if(err){
+    console.log('删除失败') 
+    return 
+  }
+  console.log('删除成功')
+})
+```
+- 注意，如果不加`recursive`这个参数，则会报错文件夹不为空时不可删除。
+- 高版本`nodejs`会提示`rmdir`会在未来版本中弃用，建议使用`rm`。
+
+## 6. 查看文件资源状态
+- 使用`fs.stat`或`fs.statSync`方法
+
+```js
+fs.stat('./资料/02_fs模块.pdf',(err,data)=>{
+  if(err){
+    console.log('查看失败')
+    return
+  }
+  console.log(data)
+  //   Stats {
+  //   dev: 1449308089,
+  //   mode: 33206,
+  //   nlink: 1,
+  //   uid: 0,
+  //   gid: 0,
+  //   rdev: 0,
+  //   blksize: 4096,
+  //   ino: 2533274790462140,
+  //   size: 275130, 文件大小
+  //   blocks: 544,
+  //   atimeMs: 1750036443981.8433,
+  //   mtimeMs: 1750035452399.2932,
+  //   ctimeMs: 1750035470230.3179,
+  //   birthtimeMs: 1750036443981.8433,
+  //   atime: 2025-06-16T01:14:03.982Z, 最后访问时间
+  //   mtime: 2025-06-16T00:57:32.399Z, 最后修改时间
+  //   ctime: 2025-06-16T00:57:50.230Z, 最后一次修改文件状态时间
+  //   birthtime: 2025-06-16T01:14:03.982Z  创建时间
+  // }
+  // isFile 判断是否是文件
+  console.log(data.isFile())
+
+  // isDirectory 判断是否是文件夹
+  console.log(data.isDirectory())
+})
+```
+
+## 7. 相对路径与绝对路径的一些问题
+- 相对路径参照的时命令行工具的路径，当命令行的工作目录与文件所在目录不一致时，需要注意相对路径访问的地址问题。
+
+```js
+fs.writeFileSync('./index.html','love')
+// node ../代码/fileSystem.js，
+// 若此时命令行工具的工作目录在“/资料”下，则新建的index.html会创建在“/资料”内
+```
+
+- 为了避免相对路径出现的问题，引入全局变量`__dirname`
+- 绝对路径全局变量保存的是：所在文件的所在目录的绝对路径，新建时可以使用拼接路径的方式进行操作。
+
+```js
+console.log(__dirname) // D:\个人代码\学习代码\nodejs
+fs.writeFileSync(__dirname+'/index.html','love')
+```
+
+## 8. `path`模块
+
+```js
+const fs=require('fs')
+const path=require('path')
+console.log(path.resolve(__dirname,'./index.html')) //D:\个人代码\学习代码\nodejs\index.html
+console.log(path.resolve(__dirname,'index.html'))//D:\个人代码\学习代码\nodejs\index.html
+// 一般第一个参数为绝对路径，后面的路径是相对路径
+// 这样写不会出现/ \混用的情况
+```
+
+| API | 说明 |
+|-----------|------------------|
+| `path.resolve` | 拼接规范的绝对路径（最常用） |
+| `path.sep` | 获取操作系统的路径分隔符 |
+| `path.parse` | 解析路径并返回对象 |
+| `path.basename` | 获取路径的基础名称 |
+| `path.dirname` | 获取路径的目录名 |
+| `path.extname` | 获得路径的扩展名 |
+
+- 示例
+
+```js
+const path = require('path');
+//获取路径分隔符 window \ linux /
+console.log(path.sep);
+//拼接绝对路径
+console.log(path.resolve(__dirname, 'test')); //D:\个人代码\学习代码\nodejs\test
+//解析路径
+let pathname = 'D:/program file/nodejs/node.exe';
+console.log(path.parse(pathname));
+// {
+//   root: 'D:/',
+//   dir: 'D:/program file/nodejs',
+//   base: 'node.exe',
+//   ext: '.exe',
+//   name: 'node'
+// }
+//获取路径基础名称
+console.log(path.basename(pathname)) // node.exe
+//获取路径的目录名
+console.log(path.dirname(pathname)); // D:/program file/nodejs
+//获取路径的扩展名
+console.log(path.extname(pathname)); // .exe
+```
