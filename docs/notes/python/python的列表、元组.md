@@ -123,3 +123,145 @@ B[0] is B[1] ### True 说明引用同一个地址
 B[0][0] = 1
 print(B) ### [[1, 0, 0], [1, 0, 0], [1, 0, 0]]
 ```
+
+### 1.6 列表的深拷贝和浅拷贝
+- 浅拷贝
+```python
+A = [1,2,3]
+B = copy(A)
+C = A[:]
+A[1] = 10
+print(A) ### [1, 10, 3]
+print(B) ### [1, 2, 3]
+print(C) ### [1, 2, 3]
+```
+
+- 深拷贝
+```python
+import copy ### 深拷贝需要导入copy模块
+A = [[1,2,3], [4,5,6], [7,8,9]]
+B = copy.deepcopy(A)
+A[1][1] = 10
+print(A) ### [[1, 2, 3], [4, 10, 6], [7, 8, 9]]
+print(B) ### [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+```
+
+### 1.7 列表推导式
+- new_list = [expression for item in iterable]
+```python
+### 列表推导式
+list1 = [1, 2, 3, 4, 5]
+list2 = [i**2 for i in list1]
+print(list2) ### [1, 4, 9, 16, 25]
+```
+```python
+a = [[1,2,3],
+     [4,5,6],
+     [7,8,9]]
+b = [row[1] for row in a]
+b
+[2, 5, 8]
+
+s = [[0]*3 for i in range(3)]
+s
+[[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+s[1][1] = 9
+s
+[[0, 0, 0], [0, 9, 0], [0, 0, 0]]
+```
+
+- new_list = [expression for item in iterable if condition]
+```python
+### 列表推导式
+list1 = [1, 2, 3, 4, 5]
+list2 = [i**2 for i in list1 if i%2==0]
+print(list2) ### [4, 16]
+
+s=[[1,2,3],[4,5,6],[7,8,9]]
+x = [col for row in s for col in row]
+x
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+```python
+[x+y for x in "abcd" for y in "ABCD"]
+['aA', 'aB', 'aC', 'aD', 'bA', 'bB', 'bC', 'bD', 'cA', 'cB', 'cC', 'cD', 'dA', 'dB', 'dC', 'dD'] ###笛卡尔积
+```
+
+- new_list = [expression for item in iterable if condition for item in iterable if condition...]
+```python
+[[x,y] for x in range(10) if x%2==0 for y in range(10) if y%3==0]
+[[0, 0], [0, 3], [0, 6], [0, 9], [2, 0], [2, 3], [2, 6], [2, 9], [4, 0], [4, 3], [4, 6], [4, 9], [6, 0], [6, 3], [6, 6], [6, 9], [8, 0], [8, 3], [8, 6], [8, 9]]
+```
+
+## 2. 元组
+```python  
+(1, 2, 3, 4, 5)
+('a', 'b', 'c', 'd', 'e')
+rhyme = (1, 2.5, 'hello', True,'world','ok')
+rhyme[:3]
+(1, 2.5, 'hello')
+rhyme[3:]
+( True, 'world', 'ok')
+rhyme[::-1]
+( 'ok', 'world', True, 'hello', 2.5, 1)
+print(rhyme)        
+```
+- 元组不可修改
+- 元组可以切片
+- 支持count，index方法
+- 支持加法和乘法
+- 支持嵌套
+- 元组可以使用列表推导式，但是不存在元组推导式
+- 生成只有一个元素的元组
+```python
+### 生成只有一个元素的元组
+t = (1,)
+t
+(1,)
+```
+
+- 元组的修改
+```python
+### 元组的修改
+x=[1,2,3]
+y=[4,5,6]
+w=(x,y)
+w
+([1, 2, 3], [4, 5, 6])
+w[0][0] = 10
+w
+([10, 2, 3], [4, 5, 6]) 
+```
+
+
+
+## 3. 解包
+```python
+### 解包
+a,b,c = (1,2,3)
+a
+1
+b
+2
+c
+3
+```     
+```python
+a,b,*c = (1,2,3,4,5)
+a
+1
+b
+2
+c
+[3, 4, 5]
+
+### 列表的解包
+a,b,*c = [1,2,3,4,5]    
+a   
+1
+b
+2
+c
+[3, 4, 5]
+``` 
