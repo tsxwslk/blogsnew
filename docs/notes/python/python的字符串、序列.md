@@ -1,5 +1,5 @@
 ---
-title: python的字符串、序列和字典
+title: python的字符串、序列
 author: 怡然
 createTime: 2025/09/23 14:22:43
 permalink: /python/b5mbpd3m/
@@ -270,3 +270,192 @@ f"{-520:010}"
 ```
 
 ## 2. 序列
+- 序列是python中最基本的数据结构，它是一种有序的集合，每个元素都有一个唯一的索引，索引从0开始。
+- 序列可以包含任意类型的元素，例如数字、字符串、列表、元组、字典等。
+- 序列的主要操作包括索引、切片、连接、重复、长度、成员资格测试等。
+- 根据是否可以修改，序列可以分为可变序列和不可变序列。
+- 可变序列包括列表、字节数组、集合、字典等，它们的元素可以被修改、添加或删除。
+- 不可变序列包括字符串、元组等，它们的元素不能被修改、添加或删除。
+
+### 2.1 序列的运算符
+- + ： 连接序列
+- * ： 重复序列
+- is ： 检查两个序列是否相等
+- is not ： 检查两个序列是否不相等
+- in ： 检查元素是否在序列中
+- not in ： 检查元素是否不在序列中
+- del ： 删除序列，也可以删除可变序列中的指定元素
+- [] ： 索引
+- [:] ： 切片
+
+### 2.2 序列的函数
+#### 2.2.1 列表、元组、字符串相互转换
+- 列表：list()
+```python
+### 列表：list() 元组和字符串的用法相同
+list("abc")
+['a', 'b', 'c']
+list((1,2,3))
+[1, 2, 3]
+```
+- 元组：tuple()
+- 字符串：str()
+
+#### 2.2.2 min() max() 
+- min()：返回序列中的最小值
+- max()：返回序列中的最大值
+```python
+### min() max()
+min([1,2,3])
+1
+max([1,2,3])
+3
+max("abc")
+'c'
+min('',default='a') ### default表示传入空值的时候返回的默认值
+```
+
+#### 2.2.3 len() sum()
+- len()：返回序列的长度
+- sum()：返回序列中所有元素的和
+```python
+### len() sum()
+len([1,2,3])
+3
+sum([1,2,3])
+6
+sum([1,2,3],start=100)
+106 ### start表示从start开始累加
+```
+
+#### 2.2.4 sorted() reversed()
+- sorted()：返回一个新的列表，其中的元素是从原序列中排序后的元素，注意sort函数是在原序列上进行排序，会改变原列表
+```python
+### sorted()
+sorted([1,0,2,3])
+[0, 1, 2, 3]
+sorted([1,2,3],reverse=True)
+[3, 2, 1] ### reverse=True表示降序排序
+s = ['fish','cat','dog','apple','book','banana']
+sorted(s)
+['apple', 'banana', 'book', 'cat', 'dog', 'fish']
+sorted(s,key=len)
+['cat', 'dog', 'book', 'fish', 'apple', 'banana'] ### key表示排序的依据，这里是按字符串长度排序
+sorted('FishC')
+['C', 'F', 'h', 'i', 's']
+```
+- reversed()：返回一个参数的反向迭代器
+```python
+### reversed()
+s = [1,2,5,8,0]
+reversed(s)
+<list_reverseiterator object at 0x0000021040904D90
+list(reversed(s))
+[0, 8, 5, 2, 1]
+```
+
+#### 2.2.5 all() any()
+- all()：如果序列中的所有元素都为True，则返回True，否则返回False
+- any()：如果序列中至少有一个元素为True，则返回True，否则返回False
+```python
+### all() any()
+all([1,2,3])
+True
+all([0,1,2])
+False
+any([0,0,0])
+False
+any([1,0,0])
+True
+```
+
+#### 2.2.6 enumerate() zip()
+- enumerate()：返回一个枚举对象，它包含了序列中的元素和它们的索引
+```python
+### enumerate()
+s = ['a','b','c']
+list(enumerate(s))
+[(0, 'a'), (1, 'b'), (2, 'c')]
+
+### 可以接受一个参数，表示从什么开始计数索引
+x = ["spring","summer","fall","winter"]
+list(enumerate(x,10))
+[(10, 'spring'), (11, 'summer'), (12, 'fall'), (13, 'winter')]
+```
+- zip()：创建一个聚合多个可迭代对象的迭代器，他会将作为参数传入的每个可迭代对象的每个元素依次组合成元组，即第i个元组包含来自每个参数的第i个元素 
+```python
+### zip()
+x = [1,2,3]
+y = ['a','b','c']
+list(zip(x,y))
+[(1, 'a'), (2, 'b'), (3, 'c')]
+```
+- 注意zip方法按照最短的可迭代对象的长度来聚合元素，如果不想丢失较长的可迭代对象中的元素，可以使用itertools.zip_longest()方法
+```python
+### zip_longest()
+import itertools
+x = [1,2,3]
+y = ['a','b','c','d','e']
+list(zip_longest(x,y))
+[(1, 'a'), (2, 'b'), (3, 'c'), (None, 'd'), (None, 'e')]
+```
+
+#### 2.2.7 map()
+- map()：对序列中的每个元素应用一个函数，返回运算结果的可迭代器
+```python
+### map()
+mapped = map(ord,"love") ### ord()函数返回字符的ascii码
+list(mapped)
+[108, 111, 118, 101]
+```
+```python
+mapped = map(pow,[2,3,10],[5,2,3]) ### pow()函数返回第一个参数的第二个参数次幂，如果map内的函数需要两个参数，就传入两个序列
+list(mapped)
+[32, 9, 1000]
+```
+
+#### 2.2.8 filter()
+- filter()：对序列中的每个元素应用一个函数，将运算结果为真的元素以迭代器的形式返回
+```python
+### filter()
+def is_odd(x):
+    return x%2==1
+list(filter(is_odd,[1,2,3,4,5]))
+[1, 3, 5]
+
+list(filter(str.islower,"AbcvS"))
+['b', 'c', 'v']
+```
+
+### 2.3 注意事项
+- 可迭代对象可以重复使用，迭代器是一次性的
+```python
+mapped = map(ord,"love")
+for each in mapped:
+    print(each)
+108
+111
+118
+101
+list(mapped)
+[] ### 迭代器是一次性的，第一次使用后就会被消耗掉
+```
+
+- 将可迭代对象转换为迭代器，iter()
+```python
+### iter()
+s = [1,2,3]
+i = iter(s)
+type(s)
+<class 'list'>
+type(i)
+<class 'list_iterator'>
+next(i,"没有了")
+1
+next(i,"没有了")
+2
+next(i,"没有了")
+3
+next(i,"没有了")
+'没有了' ### 迭代器是一次性的，第一次使用后就会被消耗掉，第二个参数在迭代器没有元素时返回
+```
