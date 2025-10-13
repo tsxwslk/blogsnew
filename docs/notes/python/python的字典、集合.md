@@ -145,3 +145,120 @@ for each in a:
 b = [1,1,1,2,3,4]
 print(len(b) == len(set(b))) # False
 ```
+
+### 2.2 集合的方法
+- 拷贝`copr()`
+```python
+s = {"one","two","three","four","five","six"}
+s_copy = s.copy()
+print(s_copy) # {"one","two","three","four","five","six"}
+```
+
+- 判断两个集合是否不相关`isdisjoint()`
+```python
+s = set("fishC")
+t = set("C++")
+n = set("at")
+s.isdisjoint(t) # False 因为两个都有"C"，有公共元素
+s.isdisjoint(n) # True 因为两个都没有"a"和"t"，没有公共元素
+```
+
+- 判断是否是子集`issubset()`或者`<=`，真子集`<`
+```python
+s = set("cat")
+t = set("cat.com")
+s.issubset(t) # True 因为"cat"是"cat.com"的子集
+```
+
+- 判断是否是超集`issuperset()`或者`>=`，真超集`>`
+```python
+s = set("cat")
+t = set("cat.com")
+t.issuperset(s) # True 因为"cat.com"是"cat"的超集
+```
+
+- 并集`union()`或者`|`
+```python
+s = set("fish")
+t = set("cat.com")
+s.union(t) # {"c","a","t",".","o","m","f","i","s","h"}
+``` 
+
+- 交集`intersection()`或者`&`
+```python
+s = set("cat")
+t = set("cat.com")
+s.intersection(t) # {"c","a","t"}
+```
+
+- 差集`difference()`或者`-`
+```python
+s = set("cat")
+t = set("cat.com")
+t.difference(s) # {".","o","m"} # 差集是t中有的，但是s中没有的元素
+```
+
+- 对称差集`symmetric_difference()`或者`^`
+```python
+s = set("abcde")
+t = set("cdefgh")
+s.symmetric_difference(t) # {"a","b","g","h"} # 对称差集是两个集合中有的，但是没有公共元素的元素
+```
+
+### 2.3 可变集合和不可变集合
+- 可变集合：可以添加、删除、修改元素的集合
+- 不可变集合：不能添加、删除、修改元素的集合
+- 可变集合：`set()`
+- 不可变集合：`frozenset()`
+```python
+s = set("bat")
+s.update([1,1],"23")
+print(s) # {'b', 'a', 't', 1, '2', '3'}
+
+t = frozenset("fish")
+t.update([1,1],"23") # 报错，不可变集合不能添加、删除、修改元素
+```
+
+- `intersection_update()`等集合的方法会改变原集合
+```python
+s = set("abcde")
+t = set("cdefgh")
+s.intersection_update(t)
+print(s) # {"c","d","e"} # 交集是s和t中都有的元素
+```
+
+- 集合中插入一个元素，使用`add()`方法
+```python
+s = set("bat")
+s.add("45")
+print(s) # {'b', 'a', 't', '45'} 注意这里45不会被迭代
+```
+
+- 集合中删除一个元素，使用`remove()`方法，或`discard()`方法，区别是`remove()`方法如果元素不存在，会报错，而`discard()`方法如果元素不存在，不会报错
+```python
+s = set("bat")
+s.remove("b")
+print(s) # {'a', 't'}
+```
+
+- `pop`方法随机删除一个元素并返回该元素
+```python
+s = set("bat")
+s.pop() # 'b'
+print(s) # {'a', 't'}
+```
+
+- `clear()`方法清空集合
+```python
+s = set("bat")
+s.clear()
+print(s) # set()
+```
+
+## 3. 创建字典和集合的刚性需求：可哈希
+- 字典的键和集合的元素必须是可哈希的，即必须是不可变的类型，如整数、浮点数、字符串、元组等
+- 列表、字典、集合等可变类型不能作为字典的键或集合的元素，因为它们是可变的，哈希值会改变
+```python
+d = {[1,2,3]:"one"} # 报错，列表是可变的，不能作为字典的键
+s = {[1,2,3],"one"} # 报错，列表是可变的，不能作为集合的元素
+```

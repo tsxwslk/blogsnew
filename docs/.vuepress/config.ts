@@ -236,7 +236,7 @@ export default defineUserConfig({
           sidebar: [
             {
               text: "python",
-              items: ["python基础","python分支与循环","python的列表、元组","python的字符串、序列","python的字典、集合"],
+              items: ["python基础","python分支与循环","python的列表、元组","python的字符串、序列","python的字典、集合","python的函数"],
             },
           ],
         }
