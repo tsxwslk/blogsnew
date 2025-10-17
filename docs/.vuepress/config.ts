@@ -56,6 +56,11 @@ export default defineUserConfig({
             icon: "material-icon-theme:python",
             link: "/notes/python/python基础.md",
           },
+          {
+            text: "SQL",
+            icon: "tabler:sql",
+            link: "/notes/SQL/SQL基础.md",
+          },
         ],
       },
       {
@@ -237,6 +242,16 @@ export default defineUserConfig({
             {
               text: "python",
               items: ["python基础","python分支与循环","python的列表、元组","python的字符串、序列","python的字典、集合","python的函数","python的储存、异常","python的类和对象","python的模块和包","python自动化办公"],
+            },
+          ],
+        },
+        {
+          dir: "SQL",
+          link: "/sql/",
+          sidebar: [
+            {
+              text: "sql",
+              items: ["SQL基础"],
             },
           ],
         }
