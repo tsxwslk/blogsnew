@@ -469,3 +469,162 @@ SELECT column1, column2, ... FROM table2
 SELECT column1, column2, ... FROM table1 UNION
 SELECT column1, column2, ... FROM table2
 ```
+
+## 6. 连接查询
+### 6.1 多表配合使用
+- 两张表有同样字段的情况下，选取字段生成新表
+```sql
+SELECT 表1.字段1, 表1.字段2, 表2.字段3, 表2.字段4
+FROM 表1,表2
+WHERE 表1.字段1 = 表2.字段1
+
+# 或者给表1，表2起别名，AS可以省略，用空格代替
+SELECT a.字段1, a.字段2, b.字段3, b.字段4
+FROM 表1 AS `a`,表2 AS `b`
+WHERE a.字段1 = b.字段1
+```
+
+### 6.2 内部连接（推荐）
+- 只返回两张表中满足连接条件的行
+```sql
+SELECT a.字段1, a.字段2, b.字段3, b.字段4
+FROM 表1 AS `a`
+INNER JOIN 表2 AS `b`
+ON a.字段1 = b.字段1
+```
+
+### 6.3 自然连接
+- 所有父子分类均在同一张表中，本质为树状结构，根据子类父类某个字段相同进行连接
+```sql
+SELECT a.`名字`AS 著作,b.`名字` AS 人物 FROM `自然连接` a,`自然连接` b WHERE a.`子分类`=b.`父分类`
+```
+
+### 6.4 左外连接（推荐）
+- 返回左表所有行，右表满足连接条件的行
+```sql
+SELECT a.字段1, a.字段2, b.字段3, b.字段4
+FROM 表1 AS `a`
+LEFT JOIN 表2 AS `b`
+ON a.字段1 = b.字段1
+```
+
+- 案例：查询不同店铺1-3日的销售数量、销售金额、毛利润总和，并按照金额的升序排列
+```sql
+SELECT `销售表`.`店号`,`店铺表`.`店名`,
+  sum(`销售表`.`销售数量`) AS 总销量,
+  sum(`销售表`.`销售数量`*`商品表`.`售价`) AS 销售金额,
+  sum(`销售表`.`销售数量`*(`商品表`.`售价`-`商品表`.`进价`)) AS 毛利润
+FROM `销售表`
+LEFT JOIN `商品表`
+ON `销售表`.`商品编码`=`商品表`.`商品编码`
+LEFT JOIN `店铺表` 
+ON `店铺表`.`店号`=`销售表`.`店号`
+WHERE 日期 BETWEEN '2020-01-01' AND '2020-01-03'
+GROUP BY `销售表`.`店号`,`店铺表`.`店名`
+ORDER BY 销售金额	
+# 注意 group by 中要包含所有查询非聚合字段，否则会报错
+```
+
+### 6.5 右外连接
+- 返回右表所有行，左表满足连接条件的行，具体操作方式与左外连接一致
+
+### 6.6 全外连接
+- 返回左右表所有行
+```sql
+SELECT * FROM 表1 LEFT JOIN 表2 ON 表1.字段1 = 表2.字段1
+UNION
+SELECT * FROM 表1 RIGHT JOIN 表2 ON 表1.字段1 = 表2.字段1
+```
+
+### 6.6 交叉连接
+- 返回连接表中所有数据行的笛卡尔积
+- 笛卡尔积举例：表1是所有店铺名称，表2是1-12月，新建表3是所有店铺在每个月的销售记录
+```sql
+SELECT 字段1,字段2,字段3 FROM 表a CROSS JOIN 表b
+# CROSS JOIN 也可以省略用逗号表示
+SELECT 字段1,字段2,字段3 FROM 表a,表b
+```
+
+## 7. 子查询和嵌套查询
+- 子查询需要包含在小括号内
+- 子查询通常放在筛选条件右侧
+- 单行子查询一般搭配条件运算符使用
+- 多行子查询，一般搭配多行操作符使用，如in、any、all
+- 子查询执行优先于主查询，主查询的条件用到了子查询的结果
+
+- 示例一：查询平均销量大于3号店铺的其他店铺
+```sql
+SELECT 店号,AVG(销售数量) AS `平均销量`
+FROM `销售表`
+GROUP BY 店号
+HAVING `平均销量` > (SELECT AVG(销售数量) FROM `销售表` WHERE 店号 = 3)
+ORDER BY `平均销量` DESC
+```
+
+## 8. 数据的增删改
+### 8.1 插入数据
+- 插入数据
+```sql
+# 方法一，支持插入多行数据，支持子查询
+INSERT INTO 表名 (字段1,字段2,字段3) VALUES (值1,值2,值3)
+INSERT INTO 表名 (字段1,字段2,字段3) VALUES (值1,值2,值3),(值1,值2,值3)
+# 方法二，空值用null代替，支持插入多行数据，支持子查询
+INSERT INTO 表名 VALUES (值1,值2,值3)
+# 方法三，不支持插入多行数据，不支持子查询
+INSERT INTO 表名 SET 字段1=值1,字段2=值2,字段3=值3
+# 添加子查询的插入数据
+INSERT INTO 表名 (字段1,字段2,字段3)
+SELECT 字段1,字段2,字段3 FROM 表名 WHERE 条件
+```
+
+### 8.2 更新数据
+- 更新单表数据
+```sql
+# 方法一，更新指定字段的值
+UPDATE 表名 SET 字段1=值1,字段2=值2,字段3=值3 WHERE 条件
+```
+
+- 更新多表数据
+```sql
+UPDATE 表1 别名
+INNER/LEFT/RIGHT JOIN 表2 别名
+ON 条件
+SET 字段1 = 值1, 字段2 = 值2,...
+WHERE 条件
+```
+
+### 8.3 删除数据
+- 条件删除
+```sql
+# 单表删除
+DELETE FROM 表名 WHERE 条件
+# 多表删除
+DELETE 表1的别名,表2的别名
+FROM 表1 别名
+INNER/LEFT/RIGHT JOIN 表2 别名
+ON 条件
+WHERE 条件
+```
+
+- 示例：只删除孙悟空的师傅
+```sql
+DELETE b
+FROM 表b b
+INNER JOIN 表a a
+ON b.序号 = a.师傅编码
+WHERE a.徒弟 = '孙悟空'
+```
+
+- 示例：孙悟空和师傅都删除
+```sql
+DELETE b,a
+FROM 表b b
+INNER JOIN 表a a
+ON b.序号 = a.师傅编码
+WHERE a.徒弟 = '孙悟空'
+```
+
+- 整表删除
+```sql
+TRUNCATE TABLE 表名
+```
